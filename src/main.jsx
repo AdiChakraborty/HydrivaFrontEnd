@@ -3,9 +3,9 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { DataProvider } from "./Context/DataContext.jsx";
-import { CartProvider } from "./context/CartContext.jsx";
+import { CartProvider } from "./Context/CartContext.jsx";
 import { ToastContainer } from "react-toastify";
-// import ScrollToTop from 'react-scroll-to-top'
+import { AuthProvider, useAuth } from "./Context/AuthContext";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -15,9 +15,9 @@ if (!PUBLISHABLE_KEY) {
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <DataProvider>
-      <CartProvider>
-       
+    <AuthProvider>
+      <DataProvider>
+        <CartProvider>
           <App />
           {/* <ScrollToTop smooth/> */}
           <ToastContainer
@@ -32,7 +32,8 @@ createRoot(document.getElementById("root")).render(
             pauseOnHover
             theme="light"
           />
-      </CartProvider>
-    </DataProvider>
-  </StrictMode>
+        </CartProvider>
+      </DataProvider>
+    </AuthProvider>
+  </StrictMode>,
 );

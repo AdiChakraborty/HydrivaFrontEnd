@@ -1,5 +1,5 @@
 import React from "react";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../Context/CartContext";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { LuNotebookText } from "react-icons/lu";
 import { MdDeliveryDining } from "react-icons/md";
@@ -19,12 +19,12 @@ const OrderSummary = ({ location, getLocation }) => {
       price: 98,
       images: ["https://i.imgur.com/9LFjwpI.jpeg"],
       quantity: 1,
-    }
+    },
   ];
 
   const totalPrice = cartItem.reduce(
     (total, item) => total + item.price * item.quantity,
-    0
+    0,
   );
 
   return (
@@ -89,9 +89,7 @@ const OrderSummary = ({ location, getLocation }) => {
                     <MdDeliveryDining /> Delivery Charge
                   </span>
                   <span className="text-red-500 font-semibold">
-                    <span className="line-through text-gray-500 mr-1">
-                      $25
-                    </span>
+                    <span className="line-through text-gray-500 mr-1">$25</span>
                     FREE
                   </span>
                 </div>

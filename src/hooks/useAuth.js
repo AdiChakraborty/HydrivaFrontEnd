@@ -1,44 +1,40 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { supabase } from "../lib/supabase";
 
 export function useAuth() {
   const [user, setUser] = useState(null);
-  const [session, setSession] = useState(null);
+  const [session, setSessionState] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // 🔄 Load session on app start
-  useEffect(() => {
-    console.log("hello from load")
-    const loadSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
+  // set session and persist to local storage
+  const setSession = useCallback((session) => {
+    setSessionState(session);
+    if (session) {
+      localStorage.setItem("supabase.auth.token", JSON.stringify(session));
+    } else {
+      localStorage.removeItem("supabase.auth.token");
+    }
+  }, []);
 
-      console.log("load session", data)
-
-      if (error) {
-        setError(error.message);
-      } else {
-        setSession(data.session);
-        setUser(data.session?.user ?? null);
-      }
-
+  // 🔔 Load user session on app start
+  const loadSession = useCallback(async () => {
+    setLoading(true);
+    const { data, error } = await supabase.auth.getSession();
+    if (error) {
+      setError(error.message);
       setLoading(false);
-    };
+      return;
+    }
+    setSession(data?.session);
+    setUser(data?.session?.user);
+    setLoading(false);
+  }, []);
 
-    loadSession();
-
-    // 🔔 Listen to auth state changes
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
-      }
-    );
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
+  //handle auth state changes
+  const handleAuthChange = useCallback((_event, session) => {
+    setSession(session);
+    setUser(session?.user ?? null);
   }, []);
 
   // ✍️ Sign up
@@ -48,7 +44,7 @@ export function useAuth() {
 
     const { error } = await supabase.auth.signUp(
       { email, password },
-      redirectTo ? { emailRedirectTo: redirectTo } : undefined
+      redirectTo ? { emailRedirectTo: redirectTo } : undefined,
     );
 
     if (error) {
@@ -75,8 +71,8 @@ export function useAuth() {
       return false;
     }
 
-    setSession(data.session);
-    setUser(data.user);
+    setSession(data?.session);
+    setUser(data?.session?.user);
     setLoading(false);
     return true;
   }, []);
@@ -91,18 +87,24 @@ export function useAuth() {
   }, []);
 
   // 🔐 Access token (for backend API calls)
-  const getAccessToken = useCallback(async () => {
-    const { data } = await supabase.auth.getSession();
-    return data.session?.access_token ?? null;
-  }, []);
+  const accessToken = useMemo(() => {
+    if (session) {
+      return session.access_token;
+    }
+    return null;
+  }, [session]);
 
   // 👑 Role helpers
   const isAdmin = user?.user_metadata?.role === "admin";
   const isAuthenticated = !!user;
 
   return {
+    loadSession,
+    handleAuthChange,
+
     user,
     session,
+    accessToken,
     loading,
     error,
 
@@ -112,6 +114,5 @@ export function useAuth() {
     signUp,
     signIn,
     signOut,
-    getAccessToken,
   };
 }

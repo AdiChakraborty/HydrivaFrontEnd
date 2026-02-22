@@ -1,23 +1,21 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../assets/loding.webm";
 import Breadcrums from "../components/Breadcrums";
 import { IoCartOutline } from "react-icons/io5";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../Context/CartContext";
+import axiosInstance from "../lib/axiosInstance";
 
 const SingleProducts = () => {
   const params = useParams();
   const [SingleProduct, setSingleProduct] = useState("");
-    const [qunatity,setQuantity] = useState(1)
+  const [qunatity, setQuantity] = useState(1);
   // console.log(params);
   const { addToCart } = useCart();
 
   const getSingleProduct = async () => {
     try {
-      const res = await axios.get(
-        `http://localhost:5000/api/products/${params.slug}`
-      );
+      const res = await axiosInstance.get(`/products/${params.slug}`);
       const product = res.data;
       const temp = {
         brand: "",
@@ -32,20 +30,18 @@ const SingleProducts = () => {
         price: product.price,
         title: product.title,
       };
-      
+
       setSingleProduct(temp);
     } catch (error) {
       console.log("Error");
     }
   };
-  console.log(params)
 
-  console.log(SingleProduct?.image?.url)
   useEffect(() => {
     getSingleProduct();
   }, []);
   const OriginalPrice = Math.round(
-    SingleProduct.price + (SingleProduct.price * SingleProduct.discount) / 100
+    SingleProduct.price + (SingleProduct.price * SingleProduct.discount) / 100,
   );
 
   return (
@@ -93,13 +89,13 @@ const SingleProducts = () => {
                   value={qunatity}
                   className="w-20 border cursor-pointer border-gray-300 rounded-lg px-3
                    py-1 focus:outline-none focus:ring-2 foucs:ring-red-500"
-                    onChange={(e)=>setQuantity(Number(e.target.value))}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
                 />
               </div>
 
               <div className="flex gap-4 mt-4">
                 <button
-                  onClick={() => addToCart(SingleProduct,qunatity)}
+                  onClick={() => addToCart(SingleProduct, qunatity)}
                   className="px-6 flex gap-2 py-2 text-lg bg-red-500 text-white rounded-md"
                 >
                   <IoCartOutline className="w-6 h-6" /> Add to Cart
