@@ -6,17 +6,42 @@ import { MdDeliveryDining } from "react-icons/md";
 import { GiShoppingBag } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import emptyCart from "../assets/empty-cart.png";
+import Image from "../components/Image";
 
 const Cart = ({ location, getLocation }) => {
-  const { cartItem, updateQuantity, deleteItem } = useCart();
+  const { cartItem, updateQuantity, deleteItem, loading , createOrder} = useCart();
   const navigate = useNavigate();
+  
 
   const totalPrice = cartItem.reduce(
     (total, item) => total + item?.product?.price * item.quantity,
     0,
   );
 
-  return (
+  const proceedToCheckOut = () =>{
+   createOrder().then(res=>{
+    console.log(res)
+    if(res){
+      navigate("/summary", {
+        state : {order: res, items : cartItem},
+       
+      })
+    }
+   })
+  }
+
+  function decreaseCart (id,count){
+
+    
+    if(count===1){
+      deleteItem(id)
+      return
+    }
+    updateQuantity(id, "decrease")
+                       
+  }
+
+  return !loading ? (
     <div className="mt-10 max-w-6xl mx-auto mb-5">
       {cartItem.length > 0 ? (
         <div>
@@ -33,7 +58,7 @@ const Cart = ({ location, getLocation }) => {
                     className="bg-gray-100 p-5 rounded-md flex items-center justify-between mt-3 w-full px-4 md:p-0"
                   >
                     <div className=" flex gap-4 items-center">
-                      <img
+                      <Image
                         src={item.images[0]?.url}
                         alt={item.title}
                         className="h-20 w-20 rounded-md"
@@ -50,9 +75,7 @@ const Cart = ({ location, getLocation }) => {
                     <div className=" bg-red-500 text-white flex gap-4 p-2 rounded-md font-bold text-xl">
                       <button
                         className=" cursor-pointer"
-                        onClick={() =>
-                          updateQuantity(cartItem, item.id, "decrease")
-                        }
+                        onClick={()=>decreaseCart(item.id,cartProduct.quantity) }
                       >
                         -
                       </button>
@@ -60,7 +83,7 @@ const Cart = ({ location, getLocation }) => {
                       <button
                         className=" cursor-pointer"
                         onClick={() =>
-                          updateQuantity(cartItem, item.id, "increase")
+                          updateQuantity(item.id, "increase")
                         }
                       >
                         +
@@ -208,8 +231,9 @@ const Cart = ({ location, getLocation }) => {
                   </div>
                 </div>
                 <button
+                  disabled={loading}
                   className="bg-red-500 text-white px-3 py-2 rounded-md w-full cursor-pointer mt-3"
-                  onClick={() => navigate("/summary")}
+                  onClick={proceedToCheckOut}
                 >
                   Proceed to checkout
                 </button>
@@ -231,6 +255,12 @@ const Cart = ({ location, getLocation }) => {
           </button>
         </div>
       )}
+    </div>
+  ) : (
+    <div className="flex flex-col gap-3 justify-center items-center h-[600px]">
+      <h1 className=" font-bold text-2xl text-red-300 text-muted">
+        Loading...
+      </h1>
     </div>
   );
 };

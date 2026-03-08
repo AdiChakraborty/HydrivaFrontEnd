@@ -1,35 +1,26 @@
-import React from "react";
-import { useCart } from "../Context/CartContext";
+import React, { useMemo } from "react";
+import { CartContext, useCart } from "../Context/CartContext";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { LuNotebookText } from "react-icons/lu";
 import { MdDeliveryDining } from "react-icons/md";
 import { GiShoppingBag } from "react-icons/gi";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import emptyCart from "../assets/empty-cart.png";
+import Image from "../components/Image";
 
 const OrderSummary = ({ location, getLocation }) => {
   const { updateQuantity, deleteItem } = useCart();
+  const { createOrder } = useCart();
+  const { state } = useLocation();
   const navigate = useNavigate();
 
-  // SAME mock data (logic unchanged)
-  const cartItem = [
-    {
-      id: 8,
-      title: "Classic Red Jogger Sweatpants",
-      price: 98,
-      images: ["https://i.imgur.com/9LFjwpI.jpeg"],
-      quantity: 1,
-    },
-  ];
+  const { order, items: cartItem } = state || { items: [], order: {} };
 
-  const totalPrice = cartItem.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0,
-  );
+  console.log("order in order summary::", order);
 
   return (
     <div className="mt-10 max-w-6xl mx-auto mb-10 px-4">
-      {cartItem.length > 0 ? (
+      {cartItem?.length > 0 ? (
         <>
           <h1 className="font-bold text-2xl mb-6">
             Order Summary ({cartItem.length})
@@ -39,35 +30,38 @@ const OrderSummary = ({ location, getLocation }) => {
           <div className="flex flex-col lg:flex-row gap-10">
             {/* LEFT: CART ITEMS */}
             <div className="flex-1 space-y-4">
-              {cartItem.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-gray-100 p-4 rounded-md flex items-center justify-between"
-                >
-                  <div className="flex gap-4 items-center">
-                    <img
-                      src={item.images[0]}
-                      alt={item.title}
-                      className="h-20 w-20 rounded-md object-cover"
-                    />
-                    <div>
-                      <h1 className="line-clamp-2 max-w-[300px]">
-                        {item.title}
-                      </h1>
-                      <p className="text-red-400 font-semibold text-lg">
-                        ${item.price * item.quantity}
-                      </p>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => deleteItem(item.id)}
-                    className="text-red-500 hover:text-red-700"
+              {cartItem.map((cartProduct) => {
+                const item = cartProduct?.product;
+                return (
+                  <div
+                    key={item.id}
+                    className="bg-gray-100 p-4 rounded-md flex items-center justify-between"
                   >
-                    <FaRegTrashAlt />
-                  </button>
-                </div>
-              ))}
+                    <div className="flex gap-4 items-center">
+                      <Image
+                        src={item.images[0]?.url}
+                        alt={item.title}
+                        className="h-20 w-20 rounded-md object-cover"
+                      />
+                      <div>
+                        <h1 className="line-clamp-2 max-w-[300px]">
+                          {item.title}
+                        </h1>
+                        <p className="text-red-400 font-semibold text-lg">
+                          ${item.price * cartProduct.quantity}
+                        </p>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => deleteItem(item.id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      <FaRegTrashAlt />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
 
             {/* RIGHT: BILL DETAILS */}
@@ -81,7 +75,7 @@ const OrderSummary = ({ location, getLocation }) => {
                   <span className="flex items-center gap-1">
                     <LuNotebookText /> Items total
                   </span>
-                  <span>${totalPrice}</span>
+                  <span>{order?.totalAmount}</span>
                 </div>
 
                 <div className="flex justify-between items-center text-gray-700">
@@ -105,7 +99,7 @@ const OrderSummary = ({ location, getLocation }) => {
 
                 <div className="flex justify-between items-center font-semibold text-lg">
                   <span>Grand Total</span>
-                  <span>${totalPrice + 5}</span>
+                  <span>${order?.totalAmount + 5}</span>
                 </div>
 
                 <div className="pt-3">
@@ -124,7 +118,10 @@ const OrderSummary = ({ location, getLocation }) => {
                   </div>
                 </div>
 
-                <button className="bg-red-500 text-white py-2 rounded-md w-full mt-4">
+                <button
+                  className="bg-red-500 text-white py-2 rounded-md w-full mt-4"
+                  onClick={createOrder}
+                >
                   Proceed to Pay
                 </button>
               </div>

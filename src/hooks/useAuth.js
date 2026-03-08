@@ -26,6 +26,7 @@ export function useAuth() {
       setLoading(false);
       return;
     }
+    console.log("Current session::", data)
     setSession(data?.session);
     setUser(data?.session?.user);
     setLoading(false);

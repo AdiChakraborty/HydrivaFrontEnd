@@ -7,6 +7,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import Category from "./Category";
 import { useNavigate } from "react-router-dom";
+import { noImg } from "../constants";
+import Image from "./Image";
 
 const Carousel = () => {
   const { data, fetchAllProducts } = getData();
@@ -48,7 +50,7 @@ const Carousel = () => {
     nextArrow: <SampleNextArrow to='next'  />,
     prevArrow: <SamplePrevArrow to='prev'  />,
   };
-  // console.log("data", data);
+  console.log("data", data);
   return (
     <div>
    
@@ -77,7 +79,7 @@ const Carousel = () => {
                   </button>
                 </div>
                 <div>  
-                    <img src={item.images} alt={item.title} className=" rounded-full w-[550px] hover:scale-105
+                    <Image src={item?.images[0]?.url || noImg} alt={item.title} className=" rounded-full w-[550px] hover:scale-105
                      transition-all shadow-2xl shadow-red-300 " />
                  </div>
               </div>

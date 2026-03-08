@@ -1,0 +1,1 @@
+export const noImg = 'https://xmimpyvfpuzfdkiqkgue.supabase.co/storage/v1/object/public/products/products/cac739a1-e127-41ba-a690-fbd959a970ef.jpg'

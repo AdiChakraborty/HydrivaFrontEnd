@@ -119,14 +119,20 @@ const Navbar = ({ location, getLocation, openDropdown, setOpenDropdown }) => {
             </span>
           </Link>
           <div className="hidden md:block">
-            <button
-              className="className= bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer"
+        {isAuthenticated ? <> <img
+              src="https://pyxis.nymag.com/v1/imgs/e58/4e4/fa63c8d6bdbbddcf57c597729a01298bf4-christianbale-blog.1x.rsquare.w1400.jpg"
+              alt=""
+              className="h-[40px]
+               rounded-[50%] bg-contain mx-5 cursor-pointer"
+               onClick={()=>navigation('/profile')}
+            /></> : <button
+              className="bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer"
               onClick={
                 isAuthenticated ? () => signOut() : () => navigation("/sign-in")
               }
             >
               {isAuthenticated ? "Sign Out" : "Sign In"}
-            </button>
+            </button>}
           </div>
           {openNav ? (
             <HiMenuAlt3

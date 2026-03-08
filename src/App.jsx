@@ -17,6 +17,7 @@ import { RequireGuest } from "./components/RequireGuest";
 import { supabase } from "./lib/supabase";
 import OrderSummary from "./pages/OrderSummary";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
+import ProfilePage from "./pages/ProfilePage";
 
 const AppContent = () => {
   const [location, setLocation] = useState();
@@ -33,6 +34,7 @@ const AppContent = () => {
       try {
         const location = await axios.get(url);
         const exactLocation = location.data.address;
+        console.log("Locationnnnn",exactLocation)
         setLocation(exactLocation);
         setOpenDropdown(false);
       } catch (error) {}
@@ -72,6 +74,7 @@ const AppContent = () => {
         <Route path="/category/:category" element={<CategoryProduct />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/profile" element={<ProfilePage />}></Route>
         <Route
           path="/cart"
           element={

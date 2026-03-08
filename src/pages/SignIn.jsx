@@ -9,7 +9,7 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { signIn } = useAuth();
+  const { signIn, error } = useAuth();
 
   async function login() {
     const isLoginSuccess = await signIn(email, password);
@@ -25,6 +25,13 @@ function SignIn() {
       <div className="bg-gray-50">
         <div className="min-h-screen flex flex-col items-center justify-center py-6 px-4">
           <div className="max-w-[480px] w-full">
+            <div className="text-lg text-center mb-3">
+              <span
+                className="text-red-600 hover:underline font-semibold"
+              >
+                {error || ""}
+              </span>
+            </div>
             <div className="p-6 sm:p-8 rounded-2xl bg-white border border-gray-200 shadow-sm">
               <h1 className="text-slate-900 text-center text-3xl font-semibold">
                 Sign in

@@ -66,9 +66,23 @@ export const CartProvider = ({ children }) => {
     [isAuthenticated],
   );
 
+   ///////////////////////////////////////////////Create orders 
+    const createOrder = async () => {
+      setLoading(true)
+      try {
+        const response = await axiosInstance.post('/orders/create')
+        setLoading(false)
+        return response?.data
+      } catch (error) {
+        console.log('Error in createOrder',err)
+        toast.error(err.message)
+        setLoading(false)
+      }
+    }
+
   const getCurrentQuantity = (productId) => {
     const item = cartItem.find((item) => item.product.id === productId);
-    return item ? item.product.quantity : 0;
+    return item ? item?.quantity : 0;
   };
 
   // Update quantity via API
@@ -79,8 +93,11 @@ export const CartProvider = ({ children }) => {
         return;
       }
 
+      console.log(productId, cartItem, action)
+      console.log("quantity::",  getCurrentQuantity(productId))
+
       try {
-        const response = await axiosInstance.post("/cart/update", {
+        const response = await axiosInstance.put("/cart/update", {
           productId,
           quantity:
             action === "increase"
@@ -94,10 +111,10 @@ export const CartProvider = ({ children }) => {
         toast.success("Product quantity updated!");
       } catch (err) {
         console.error("Error updating quantity:", err);
-        toast.error(err.message);
+        toast.error(err?.response?.data?.message || "Failed to update cart");
       }
     },
-    [isAuthenticated],
+    [isAuthenticated, cartItem, getCurrentQuantity],
   );
 
   // Delete item via API
@@ -109,9 +126,7 @@ export const CartProvider = ({ children }) => {
       }
 
       try {
-        const response = await axiosInstance.post("/cart/delete", {
-          productId,
-        });
+        const response = await axiosInstance.delete("/cart/remove/" + productId);
         if (response.data) {
           fetchCartItems();
         }
@@ -136,6 +151,7 @@ export const CartProvider = ({ children }) => {
         loading,
         error,
         fetchCartItems,
+        createOrder
       }}
     >
       {children}

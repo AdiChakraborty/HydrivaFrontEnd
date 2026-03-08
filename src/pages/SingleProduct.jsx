@@ -5,6 +5,7 @@ import Breadcrums from "../components/Breadcrums";
 import { IoCartOutline } from "react-icons/io5";
 import { useCart } from "../Context/CartContext";
 import axiosInstance from "../lib/axiosInstance";
+import CartButton from "../components/CartButton";
 
 const SingleProducts = () => {
   const params = useParams();
@@ -92,15 +93,9 @@ const SingleProducts = () => {
                   onChange={(e) => setQuantity(Number(e.target.value))}
                 />
               </div>
+              <div className="flex gap-4 mt-4"> <CartButton product={SingleProduct} /></div>
 
-              <div className="flex gap-4 mt-4">
-                <button
-                  onClick={() => addToCart(SingleProduct, qunatity)}
-                  className="px-6 flex gap-2 py-2 text-lg bg-red-500 text-white rounded-md"
-                >
-                  <IoCartOutline className="w-6 h-6" /> Add to Cart
-                </button>
-              </div>
+           
             </div>
           </div>
         </div>
