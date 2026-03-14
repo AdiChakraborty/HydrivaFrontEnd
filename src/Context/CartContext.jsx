@@ -67,10 +67,10 @@ export const CartProvider = ({ children }) => {
   );
 
    ///////////////////////////////////////////////Create orders 
-    const createOrder = async () => {
+    const createOrder = async (addressId) => {
       setLoading(true)
       try {
-        const response = await axiosInstance.post('/orders/create')
+        const response = await axiosInstance.post('/orders/create', {addressId})
         setLoading(false)
         return response?.data
       } catch (error) {

@@ -7,16 +7,20 @@ import { GiShoppingBag } from "react-icons/gi";
 import { useLocation, useNavigate } from "react-router-dom";
 import emptyCart from "../assets/empty-cart.png";
 import Image from "../components/Image";
+import { startPayment } from "../services/paymentService";
 
 const OrderSummary = ({ location, getLocation }) => {
   const { updateQuantity, deleteItem } = useCart();
-  const { createOrder } = useCart();
   const { state } = useLocation();
   const navigate = useNavigate();
 
   const { order, items: cartItem } = state || { items: [], order: {} };
 
   console.log("order in order summary::", order);
+
+  const createOrder =async () => {
+    await startPayment()
+  }
 
   return (
     <div className="mt-10 max-w-6xl mx-auto mb-10 px-4">

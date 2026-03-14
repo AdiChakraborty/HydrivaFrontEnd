@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useCart } from "../Context/CartContext";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { LuNotebookText } from "react-icons/lu";
@@ -7,38 +7,53 @@ import { GiShoppingBag } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import emptyCart from "../assets/empty-cart.png";
 import Image from "../components/Image";
+import axiosInstance from "../lib/axiosInstance";
 
 const Cart = ({ location, getLocation }) => {
-  const { cartItem, updateQuantity, deleteItem, loading , createOrder} = useCart();
+  const { cartItem, updateQuantity, deleteItem, loading, createOrder } =
+    useCart();
   const navigate = useNavigate();
-  
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState(null)
+
+  const getAddress = async () => {
+    const res = await axiosInstance.get(`/addresses`);
+    const data = await res.data;
+    console.log("adress issss in cartt", data);
+    setAddresses(data);
+  };
+
+  useEffect(() => {
+    getAddress();
+  }, []);
 
   const totalPrice = cartItem.reduce(
     (total, item) => total + item?.product?.price * item.quantity,
     0,
   );
 
-  const proceedToCheckOut = () =>{
-   createOrder().then(res=>{
-    console.log(res)
-    if(res){
-      navigate("/summary", {
-        state : {order: res, items : cartItem},
-       
-      })
-    }
-   })
+  const proceedToCheckOut = () => {
+    createOrder(selectedAddressId).then((res) => {
+      console.log(res);
+      if (res) {
+        navigate("/summary", {
+          state: { order: res, items: cartItem },
+        });
+      }
+    });
+  };
+
+  function selectAddress (id) {
+    setSelectedAddressId(id)
+
   }
 
-  function decreaseCart (id,count){
-
-    
-    if(count===1){
-      deleteItem(id)
-      return
+  function decreaseCart(id, count) {
+    if (count === 1) {
+      deleteItem(id);
+      return;
     }
-    updateQuantity(id, "decrease")
-                       
+    updateQuantity(id, "decrease");
   }
 
   return !loading ? (
@@ -75,16 +90,16 @@ const Cart = ({ location, getLocation }) => {
                     <div className=" bg-red-500 text-white flex gap-4 p-2 rounded-md font-bold text-xl">
                       <button
                         className=" cursor-pointer"
-                        onClick={()=>decreaseCart(item.id,cartProduct.quantity) }
+                        onClick={() =>
+                          decreaseCart(item.id, cartProduct.quantity)
+                        }
                       >
                         -
                       </button>
                       <span>{cartProduct.quantity}</span>
                       <button
                         className=" cursor-pointer"
-                        onClick={() =>
-                          updateQuantity(item.id, "increase")
-                        }
+                        onClick={() => updateQuantity(item.id, "increase")}
                       >
                         +
                       </button>
@@ -100,83 +115,46 @@ const Cart = ({ location, getLocation }) => {
               })}
             </div>
             <div className=" grid grid-cols-1 md:grid-cols-2 md:gap-20">
-              <div className=" bg-gray-100 rounded-md p-7 mt-4 space-y-2">
-                <h1 className="text-gray-800 font-bold text-xl">
-                  Delivery Info
-                </h1>
-                <div className="flex flex-col space-y-1">
-                  <label htmlFor="">Full Name</label>
-                  <input
-                    type="text"
-                    placeholder="Enter your name"
-                    className=" rounded-md p-2"
-                    // value={user?.fullName}
-                  />
-                </div>
-                <div className="flex flex-col space-y-1">
-                  <label htmlFor="">Address</label>
-                  <input
-                    type="text"
-                    placeholder="Enter your address"
-                    className=" rounded-md p-2"
-                    value={location?.country}
-                  />
-                </div>
-                <div className="flex w-full gap-5">
-                  <div className="flex flex-col space-y-1 w-full">
-                    <label htmlFor="">State</label>
-                    <input
-                      type="text"
-                      placeholder="Enter your state"
-                      className=" rounded-md p-2 w-full"
-                      value={location?.state}
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-1 w-full">
-                    <label htmlFor="">PostCode</label>
-                    <input
-                      type="text"
-                      placeholder="Enter your postcode"
-                      className=" rounded-md p-2 w-full"
-                      value={location?.postcode}
-                    />
-                  </div>
-                </div>
-                <div className="flex w-full gap-5">
-                  <div className="flex flex-col space-y-1 w-full">
-                    <label htmlFor="">Country</label>
-                    <input
-                      type="text"
-                      placeholder="Enter your Country"
-                      className=" rounded-md p-2 w-full"
-                      value={location?.country}
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-1 w-full">
-                    <label htmlFor="">Phone Number</label>
-                    <input
-                      type="text"
-                      placeholder="Enter your Phone number"
-                      className=" rounded-md p-2 w-full"
-                      // value={user.phoneNumber}
-                    />
-                  </div>
-                </div>
-                <button className=" bg-red-500 text-white px-3 py-1 rounded-md mt-3 cursor-pointer">
-                  Submit
-                </button>
-                <div className="flex items-center justify-center w-full text-gray-700">
-                  ------OR------
-                </div>
-                <div className="flex justify-center">
-                  <button
-                    className=" bg-red-500 text-white px-3 py-2 rounded-md "
-                    onClick={getLocation}
+              {/* Delivery info  */}
+
+              <div className="space-y-4 pt-4">
+                {addresses.map((addr) => (
+                  <div
+                    key={addr.id}
+                    className="bg-white p-5 rounded-xl shadow flex justify-start gap-5 items-center"
                   >
-                    Detect Location
-                  </button>
-                </div>
+                    <input
+                      type="checkbox"
+                      style={{
+                        width: 20,
+                        height: 20,
+                      }}
+                      checked={selectedAddressId === addr.id}
+                      onChange={e => selectAddress(addr.id)}
+                      
+                    />
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <p className="font-semibold">{addr.fullName}</p>
+                        {addr.isDefault && <p>Default</p>}
+
+                      </div>
+
+                      <p className="text-sm text-gray-600">
+                        {addr.addressLine1}, {addr.addressLine2}, {addr.city},{" "}
+                        {addr.state}
+                      </p>
+
+                      <p className="text-sm text-gray-500">
+                        Phone: {addr.phone}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
+
+              {/* Bill section  */}
+
               <div className="bg-white  border border-gray-100 shadow-xl rounded-md p-7 mt-4 space-y-2 h-max">
                 <h1 className=" text-gray-800 font-bold text-xl">
                   Bill details

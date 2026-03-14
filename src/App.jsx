@@ -74,7 +74,8 @@ const AppContent = () => {
         <Route path="/category/:category" element={<CategoryProduct />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
-        <Route path="/profile" element={<ProfilePage />}></Route>
+        <Route path="/profile" element={<ProfilePage  location={location}
+        getLocation={getLocation} />}></Route>
         <Route
           path="/cart"
           element={
