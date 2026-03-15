@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import About from "./pages/About";
-import Contact from "./pages/contact";
+import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import Navbar from "./components/Navbar";
 import axios from "axios";
@@ -35,7 +35,7 @@ const AppContent = () => {
       try {
         const location = await axios.get(url);
         const exactLocation = location.data.address;
-        console.log("Locationnnnn",exactLocation)
+        console.log("Locationnnnn", exactLocation);
         setLocation(exactLocation);
         setOpenDropdown(false);
       } catch (error) {}
@@ -76,8 +76,12 @@ const AppContent = () => {
         <Route path="/about" element={<About />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/orders" element={<Orders />}></Route>
-        <Route path="/profile" element={<ProfilePage  location={location}
-        getLocation={getLocation} />}></Route>
+        <Route
+          path="/profile"
+          element={
+            <ProfilePage location={location} getLocation={getLocation} />
+          }
+        ></Route>
         <Route
           path="/cart"
           element={
