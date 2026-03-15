@@ -8,7 +8,7 @@ function RegisterForm() {
   const [password, setPassword] = useState("");
   const [passwordcnfr, setPasswordCnrf] = useState("");
 
-  const { signUp } = useAuth();
+  const { signUp,error } = useAuth();
 
   async function singUp() {
     if (password !== passwordcnfr) {
@@ -31,6 +31,13 @@ function RegisterForm() {
     <div className=" mt-3">
       <div className="flex flex-col justify-center sm:h-screen p-4">
         <div className="max-w-md w-full mx-auto border border-gray-300 rounded-2xl p-8">
+         <div className="text-lg text-center mb-3">
+              <span
+                className="text-red-600 hover:underline font-semibold"
+              >
+                {error || ""}
+              </span>
+            </div>
           <div className="text-center mb-12">
             <h1 className="text-slate-900 text-center text-3xl font-semibold">
               Sign up

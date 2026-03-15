@@ -66,19 +66,21 @@ export const CartProvider = ({ children }) => {
     [isAuthenticated],
   );
 
-   ///////////////////////////////////////////////Create orders 
-    const createOrder = async (addressId) => {
-      setLoading(true)
-      try {
-        const response = await axiosInstance.post('/orders/create', {addressId})
-        setLoading(false)
-        return response?.data
-      } catch (error) {
-        console.log('Error in createOrder',err)
-        toast.error(err.message)
-        setLoading(false)
-      }
+  ///////////////////////////////////////////////Create orders
+  const createOrder = async (addressId) => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.post("/orders/create", {
+        addressId,
+      });
+      setLoading(false);
+      return response?.data;
+    } catch (error) {
+      console.log("Error in createOrder", err);
+      toast.error(err.message);
+      setLoading(false);
     }
+  };
 
   const getCurrentQuantity = (productId) => {
     const item = cartItem.find((item) => item.product.id === productId);
@@ -92,26 +94,27 @@ export const CartProvider = ({ children }) => {
         toast.error("Please sign in");
         return;
       }
+      const currentQuantity = getCurrentQuantity(productId);
+      if (currentQuantity > 1) {
+        try {
+          const response = await axiosInstance.put("/cart/update", {
+            productId,
+            quantity:
+              action === "increase"
+                ? getCurrentQuantity(productId) + 1
+                : getCurrentQuantity(productId) - 1,
+          });
+          if (response.data) {
+            fetchCartItems();
+          }
 
-      console.log(productId, cartItem, action)
-      console.log("quantity::",  getCurrentQuantity(productId))
-
-      try {
-        const response = await axiosInstance.put("/cart/update", {
-          productId,
-          quantity:
-            action === "increase"
-              ? getCurrentQuantity(productId) + 1
-              : getCurrentQuantity(productId) - 1,
-        });
-        if (response.data) {
-          fetchCartItems();
+          toast.success("Product quantity updated!");
+        } catch (err) {
+          console.error("Error updating quantity:", err);
+          toast.error(err?.response?.data?.message || "Failed to update cart");
         }
-
-        toast.success("Product quantity updated!");
-      } catch (err) {
-        console.error("Error updating quantity:", err);
-        toast.error(err?.response?.data?.message || "Failed to update cart");
+      } else {
+        deleteItem(productId);
       }
     },
     [isAuthenticated, cartItem, getCurrentQuantity],
@@ -126,7 +129,9 @@ export const CartProvider = ({ children }) => {
       }
 
       try {
-        const response = await axiosInstance.delete("/cart/remove/" + productId);
+        const response = await axiosInstance.delete(
+          "/cart/remove/" + productId,
+        );
         if (response.data) {
           fetchCartItems();
         }
@@ -151,7 +156,7 @@ export const CartProvider = ({ children }) => {
         loading,
         error,
         fetchCartItems,
-        createOrder
+        createOrder,
       }}
     >
       {children}

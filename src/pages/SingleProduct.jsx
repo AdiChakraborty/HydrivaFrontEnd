@@ -11,8 +11,6 @@ const SingleProducts = () => {
   const params = useParams();
   const [SingleProduct, setSingleProduct] = useState("");
   const [qunatity, setQuantity] = useState(1);
-  // console.log(params);
-  const { addToCart } = useCart();
 
   const getSingleProduct = async () => {
     try {

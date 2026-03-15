@@ -3,7 +3,7 @@ import { useCart } from "../Context/CartContext";
 import { IoCartOutline } from "react-icons/io5";
 
 const CartButton = ({ addToCartButtonClassName, product }) => {
-  const { addToCart, cartItem, updateQuantity } = useCart();
+  const { addToCart, cartItem, updateQuantity, loading } = useCart();
 
   const cartProduct = React.useMemo(() => {
     return cartItem.find((item) => item.product.id === product.id);
@@ -14,6 +14,7 @@ const CartButton = ({ addToCartButtonClassName, product }) => {
         <div className="flex justify-evenly items-center bg-red-500 text-white gap-4 p-2 rounded-md font-bold text-xl">
           <button
             className=" cursor-pointer"
+            disabled={loading}
             onClick={() => updateQuantity(product.id, "decrease")}
           >
             -
@@ -23,6 +24,7 @@ const CartButton = ({ addToCartButtonClassName, product }) => {
           </span>
           <button
             className=" cursor-pointer"
+            disabled={loading}
             onClick={() => updateQuantity(product.id, "increase")}
           >
             +
@@ -31,7 +33,11 @@ const CartButton = ({ addToCartButtonClassName, product }) => {
       ) : (
         <button
           onClick={() => addToCart(product)}
-          className={" bg-red-500 text-white px-4 py-2 text-lg rounded-md cursor-pointer flex gap-2 items-center justify-center font-semibold " + addToCartButtonClassName}
+          disabled={loading}
+          className={
+            " bg-red-500 text-white px-4 py-2 text-lg rounded-md cursor-pointer flex gap-2 items-center justify-center font-semibold " +
+            addToCartButtonClassName
+          }
         >
           <IoCartOutline className="w-6 h-6" /> Add to cart
         </button>

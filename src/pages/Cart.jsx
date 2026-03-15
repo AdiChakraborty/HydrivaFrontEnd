@@ -14,7 +14,7 @@ const Cart = ({ location, getLocation }) => {
     useCart();
   const navigate = useNavigate();
   const [addresses, setAddresses] = useState([]);
-  const [selectedAddressId, setSelectedAddressId] = useState(null)
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
 
   const getAddress = async () => {
     const res = await axiosInstance.get(`/addresses`);
@@ -43,9 +43,8 @@ const Cart = ({ location, getLocation }) => {
     });
   };
 
-  function selectAddress (id) {
-    setSelectedAddressId(id)
-
+  function selectAddress(id) {
+    setSelectedAddressId(id);
   }
 
   function decreaseCart(id, count) {
@@ -114,43 +113,45 @@ const Cart = ({ location, getLocation }) => {
                 );
               })}
             </div>
-            <div className=" grid grid-cols-1 md:grid-cols-2 md:gap-20">
+            <div className=" grid grid-cols-1 md:grid-cols-2 md:gap-5">
               {/* Delivery info  */}
+              <div className="bg-white  border border-gray-100 shadow-xl rounded-md p-7 mt-4 space-y-2 h-max">
+                <div className="space-y-4 pt-4">
+                  <h1 className=" text-gray-800 font-bold text-xl">
+                    Your saved addresses
+                  </h1>
+                  {addresses.map((addr) => (
+                    <div
+                      key={addr.id}
+                      className="bg-white p-5 rounded-xl shadow flex justify-start gap-5 items-center"
+                    >
+                      <input
+                        type="checkbox"
+                        style={{
+                          width: 20,
+                          height: 20,
+                        }}
+                        checked={selectedAddressId === addr.id}
+                        onChange={(e) => selectAddress(addr.id)}
+                      />
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <p className="font-semibold">{addr.fullName}</p>
+                          {addr.isDefault && <p>Default</p>}
+                        </div>
 
-              <div className="space-y-4 pt-4">
-                {addresses.map((addr) => (
-                  <div
-                    key={addr.id}
-                    className="bg-white p-5 rounded-xl shadow flex justify-start gap-5 items-center"
-                  >
-                    <input
-                      type="checkbox"
-                      style={{
-                        width: 20,
-                        height: 20,
-                      }}
-                      checked={selectedAddressId === addr.id}
-                      onChange={e => selectAddress(addr.id)}
-                      
-                    />
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <p className="font-semibold">{addr.fullName}</p>
-                        {addr.isDefault && <p>Default</p>}
+                        <p className="text-sm text-gray-600">
+                          {addr.addressLine1}, {addr.addressLine2}, {addr.city},{" "}
+                          {addr.state}
+                        </p>
 
+                        <p className="text-sm text-gray-500">
+                          Phone: {addr.phone}
+                        </p>
                       </div>
-
-                      <p className="text-sm text-gray-600">
-                        {addr.addressLine1}, {addr.addressLine2}, {addr.city},{" "}
-                        {addr.state}
-                      </p>
-
-                      <p className="text-sm text-gray-500">
-                        Phone: {addr.phone}
-                      </p>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
 
               {/* Bill section  */}

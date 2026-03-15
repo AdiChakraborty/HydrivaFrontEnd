@@ -114,25 +114,36 @@ const Navbar = ({ location, getLocation, openDropdown, setOpenDropdown }) => {
           </ul>
           <Link to={"/cart"} className="relative">
             <IoCartOutline className="h-7 w-7" />
-            <span className="bg-red-500 px-2 rounded-full absolute -top-3 -right-3 text-white">
-              {cartItem?.length || 0}
-            </span>
+            {cartItem?.length > 0 && (
+              <span className="bg-red-500 px-2 rounded-full absolute -top-3 -right-3 text-white">
+                {cartItem?.length || 0}
+              </span>
+            )}
           </Link>
           <div className="hidden md:block">
-        {isAuthenticated ? <> <img
-              src="https://pyxis.nymag.com/v1/imgs/e58/4e4/fa63c8d6bdbbddcf57c597729a01298bf4-christianbale-blog.1x.rsquare.w1400.jpg"
-              alt=""
-              className="h-[40px]
+            {isAuthenticated ? (
+              <>
+                {" "}
+                <img
+                  src="https://pyxis.nymag.com/v1/imgs/e58/4e4/fa63c8d6bdbbddcf57c597729a01298bf4-christianbale-blog.1x.rsquare.w1400.jpg"
+                  alt=""
+                  className="h-[40px]
                rounded-[50%] bg-contain mx-5 cursor-pointer"
-               onClick={()=>navigation('/profile')}
-            /></> : <button
-              className="bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer"
-              onClick={
-                isAuthenticated ? () => signOut() : () => navigation("/sign-in")
-              }
-            >
-              {isAuthenticated ? "Sign Out" : "Sign In"}
-            </button>}
+                  onClick={() => navigation("/profile")}
+                />
+              </>
+            ) : (
+              <button
+                className="bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer"
+                onClick={
+                  isAuthenticated
+                    ? () => signOut()
+                    : () => navigation("/sign-in")
+                }
+              >
+                {isAuthenticated ? "Sign Out" : "Sign In"}
+              </button>
+            )}
           </div>
           {openNav ? (
             <HiMenuAlt3

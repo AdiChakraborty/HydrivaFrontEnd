@@ -18,6 +18,7 @@ import { supabase } from "./lib/supabase";
 import OrderSummary from "./pages/OrderSummary";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
 import ProfilePage from "./pages/ProfilePage";
+import Orders from "./pages/Orders";
 
 const AppContent = () => {
   const [location, setLocation] = useState();
@@ -74,6 +75,7 @@ const AppContent = () => {
         <Route path="/category/:category" element={<CategoryProduct />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/orders" element={<Orders />}></Route>
         <Route path="/profile" element={<ProfilePage  location={location}
         getLocation={getLocation} />}></Route>
         <Route

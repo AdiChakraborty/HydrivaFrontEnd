@@ -50,7 +50,7 @@ export const startPayment = async () => {
         );
 
         alert("Payment successful 🎉");
-        window.location.href = "/orders";
+        window.location.href = "/profile";
       },
 
       theme: {

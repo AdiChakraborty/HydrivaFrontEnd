@@ -1,10 +1,12 @@
 import React, { useRef, useState } from "react";
 import MyAddresses from "../components/MyAddresses";
 import { defaultProfileImg } from "../constants";
+import { useNavigate } from "react-router-dom";
 
 function ProfilePage({ location, getLocation }) {
    const [profileFile, setProfileFile] = useState(null)
     const fileInputRef = useRef();
+    const navigation = useNavigate()
 
   function UploadImage() {
     const fileInputRef = useRef();
@@ -25,7 +27,7 @@ function ProfilePage({ location, getLocation }) {
         {/*  top div  */}
         <div className="h-20 text-xl flex items-center">
           <ul className="flex flex-wrap text-sm font-medium text-center text-body border-b border-default">
-            <li className="me-2">
+            <li className="me-2 text-xl ">
               <a
                 href="#"
                 aria-current="page"
@@ -34,30 +36,17 @@ function ProfilePage({ location, getLocation }) {
                 Profile
               </a>
             </li>
-            <li className="me-2">
+            <li className="me-2 text-xl">
               <a
                 href="#"
                 className="inline-block p-4 rounded-t-base hover:text-heading hover:bg-neutral-secondary-soft"
+                onClick={()=>navigation('/orders')}
               >
-                Dashboard
+               Order History
               </a>
             </li>
-            <li className="me-2">
-              <a
-                href="#"
-                className="inline-block p-4 rounded-t-base hover:text-heading hover:bg-neutral-secondary-soft"
-              >
-                Settings
-              </a>
-            </li>
-            <li className="me-2">
-              <a
-                href="#"
-                className="inline-block p-4 rounded-t-base hover:text-heading hover:bg-neutral-secondary-soft"
-              >
-                Contacts
-              </a>
-            </li>
+       
+          
           </ul>
         </div>
         {/* mid portion */}

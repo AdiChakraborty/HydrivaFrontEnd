@@ -6,7 +6,7 @@ import Image from "./Image";
 import CartButton from "./CartButton";
 
 const ProductCard = ({ product }) => {
-  // console.log(product );
+
   const navigate = useNavigate();
 
   const imgSrc =
