@@ -33,13 +33,18 @@ const Cart = ({ location, getLocation }) => {
   );
 
   const proceedToCheckOut = () => {
-    createOrder(selectedAddressId).then((res) => {
-      console.log(res);
-      if (res) {
-        navigate("/summary", {
-          state: { order: res, items: cartItem },
-        });
-      }
+    if (!selectedAddressId) {
+      alert("Please select an address to proceed");
+      return;
+    }
+    navigate("/summary", {
+      state: {
+        order: {
+          totalAmount: totalPrice,
+          addressId: selectedAddressId,
+        },
+        items: cartItem,
+      },
     });
   };
 

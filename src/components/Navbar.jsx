@@ -10,10 +10,12 @@ import { useAuth } from "../Context/AuthContext";
 import { useCart } from "../Context/CartContext";
 
 const Navbar = ({ location, getLocation, openDropdown, setOpenDropdown }) => {
-  const { isAuthenticated, signOut } = useAuth();
+  const { isAuthenticated, signOut, user } = useAuth();
   const [openNav, setOpenNav] = useState(false);
   const { cartItem = [] } = useCart();
   console.log("Cart items in Navbar:", cartItem);
+  console.log("User in Navbar:", user);
+
   const navigation = useNavigate();
 
   const toggleDropdown = () => {

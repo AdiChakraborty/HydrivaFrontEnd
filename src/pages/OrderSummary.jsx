@@ -12,15 +12,22 @@ import { startPayment } from "../services/paymentService";
 const OrderSummary = ({ location, getLocation }) => {
   const { updateQuantity, deleteItem } = useCart();
   const { state } = useLocation();
+  const [paymentInProgress, setPaymentInProgress] = React.useState(false);
   const navigate = useNavigate();
 
   const { order, items: cartItem } = state || { items: [], order: {} };
 
-  console.log("order in order summary::", order);
-
-  const createOrder =async () => {
-    await startPayment()
-  }
+  const createOrder = async () => {
+    setPaymentInProgress(true);
+    await startPayment({
+      onSuccess: () => {
+        navigate("/orders");
+        setPaymentInProgress(false);
+      },
+      addressId: order.addressId,
+      onFailure: () => setPaymentInProgress(false),
+    });
+  };
 
   return (
     <div className="mt-10 max-w-6xl mx-auto mb-10 px-4">
@@ -123,6 +130,7 @@ const OrderSummary = ({ location, getLocation }) => {
                 </div>
 
                 <button
+                  disabled={paymentInProgress}
                   className="bg-red-500 text-white py-2 rounded-md w-full mt-4"
                   onClick={createOrder}
                 >
@@ -140,6 +148,7 @@ const OrderSummary = ({ location, getLocation }) => {
           <img src={emptyCart} alt="Empty cart" className="w-[350px]" />
           <button
             onClick={() => navigate("/products")}
+            disabled={paymentInProgress}
             className="bg-red-500 text-white px-4 py-2 rounded-md"
           >
             Continue Shopping

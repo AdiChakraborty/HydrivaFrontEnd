@@ -66,7 +66,6 @@ export const CartProvider = ({ children }) => {
     [isAuthenticated],
   );
 
-  ///////////////////////////////////////////////Create orders
   const createOrder = async (addressId) => {
     setLoading(true);
     try {
