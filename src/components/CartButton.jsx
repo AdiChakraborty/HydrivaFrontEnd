@@ -13,7 +13,10 @@ const CartButton = ({ addToCartButtonClassName, product }) => {
       {cartProduct ? (
         <div className="flex justify-evenly items-center bg-red-500 text-white gap-4 p-2 rounded-md font-bold text-xl">
           <button
-            className=" cursor-pointer"
+            className={
+              "cursor-pointer " +
+              (loading ? "opacity-50 cursor-not-allowed" : "")
+            }
             disabled={loading}
             onClick={() => updateQuantity(product.id, "decrease")}
           >
@@ -23,7 +26,10 @@ const CartButton = ({ addToCartButtonClassName, product }) => {
             <IoCartOutline className="w-6 h-6 mr-2" /> {cartProduct.quantity}
           </span>
           <button
-            className=" cursor-pointer"
+            className={
+              "cursor-pointer " +
+              (loading ? "opacity-50 cursor-not-allowed" : "")
+            }
             disabled={loading}
             onClick={() => updateQuantity(product.id, "increase")}
           >
@@ -35,8 +41,9 @@ const CartButton = ({ addToCartButtonClassName, product }) => {
           onClick={() => addToCart(product)}
           disabled={loading}
           className={
-            " bg-red-500 text-white px-4 py-2 text-lg rounded-md cursor-pointer flex gap-2 items-center justify-center font-semibold " +
-            addToCartButtonClassName
+            "bg-red-500 text-white px-4 py-2 text-lg rounded-md cursor-pointer flex gap-2 items-center justify-center font-semibold " +
+            addToCartButtonClassName +
+            (loading ? " opacity-50 cursor-not-allowed" : "")
           }
         >
           <IoCartOutline className="w-6 h-6" /> Add to cart

@@ -19,16 +19,18 @@ export const CartProvider = ({ children }) => {
 
   // Fetch cart items from API
   const fetchCartItems = useCallback(async () => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || loading || !accessToken) return;
 
     setLoading(true);
     try {
       const response = await axiosInstance.get("/cart");
       console.log("Cart items fetched:", response.data.items);
       setCartItem(response.data.items || []);
+      setLoading(false);
       setError(null);
     } catch (err) {
       setError(err.message);
+      setLoading(false);
       console.error("Error fetching cart:", err);
     } finally {
       setLoading(false);
@@ -43,10 +45,12 @@ export const CartProvider = ({ children }) => {
   // Add to cart via API
   const addToCart = useCallback(
     async (product, quantity = 1) => {
+      if (loading) return;
       if (!isAuthenticated) {
         toast.error("Please sign in to add items to cart");
         return;
       }
+      setLoading(true);
 
       try {
         const response = await axiosInstance.post("/cart/add", {
@@ -54,6 +58,7 @@ export const CartProvider = ({ children }) => {
           quantity,
         });
         if (response.data) {
+          setLoading(false);
           fetchCartItems();
         }
 
@@ -61,12 +66,16 @@ export const CartProvider = ({ children }) => {
       } catch (err) {
         console.error("Error adding to cart:", err);
         toast.error(err.message);
+        setLoading(false);
+      } finally {
+        setLoading(false);
       }
     },
-    [isAuthenticated],
+    [isAuthenticated, fetchCartItems, loading],
   );
 
   const createOrder = async (addressId) => {
+    if (loading) return;
     setLoading(true);
     try {
       const response = await axiosInstance.post("/orders/create", {
@@ -89,12 +98,16 @@ export const CartProvider = ({ children }) => {
   // Update quantity via API
   const updateQuantity = useCallback(
     async (productId, action) => {
+      if (loading) return;
       if (!isAuthenticated) {
         toast.error("Please sign in");
         return;
       }
+      setLoading(true);
       const currentQuantity = getCurrentQuantity(productId);
-      if (currentQuantity > 1) {
+      if (currentQuantity === 1 && action === "decrease") {
+        deleteItem(productId);
+      } else {
         try {
           const response = await axiosInstance.put("/cart/update", {
             productId,
@@ -104,6 +117,7 @@ export const CartProvider = ({ children }) => {
                 : getCurrentQuantity(productId) - 1,
           });
           if (response.data) {
+            setLoading(false);
             fetchCartItems();
           }
 
@@ -111,21 +125,24 @@ export const CartProvider = ({ children }) => {
         } catch (err) {
           console.error("Error updating quantity:", err);
           toast.error(err?.response?.data?.message || "Failed to update cart");
+          setLoading(false);
+        } finally {
+          setLoading(false);
         }
-      } else {
-        deleteItem(productId);
       }
     },
-    [isAuthenticated, cartItem, getCurrentQuantity],
+    [isAuthenticated, cartItem, getCurrentQuantity, loading, fetchCartItems],
   );
 
   // Delete item via API
   const deleteItem = useCallback(
     async (productId) => {
+      if (loading) return;
       if (!isAuthenticated) {
         toast.error("Please sign in");
         return;
       }
+      setLoading(true);
 
       try {
         const response = await axiosInstance.delete(
@@ -133,15 +150,19 @@ export const CartProvider = ({ children }) => {
         );
         if (response.data) {
           fetchCartItems();
+          setLoading(false);
         }
 
         toast.success("Product removed from cart!");
       } catch (err) {
         console.error("Error deleting item:", err);
         toast.error(err.message);
+        setLoading(false);
+      } finally {
+        setLoading(false);
       }
     },
-    [isAuthenticated],
+    [isAuthenticated, fetchCartItems, loading],
   );
 
   return (

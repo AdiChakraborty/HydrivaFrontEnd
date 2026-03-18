@@ -113,13 +113,15 @@ const OrderSummary = ({ location, getLocation }) => {
                   <span>${order?.totalAmount + 5}</span>
                 </div>
 
-                
-
                 <button
-                  className="bg-red-500 text-white py-2 rounded-md w-full mt-4 cursor-pointer"
+                  disabled={paymentInProgress}
+                  className={
+                    "bg-red-500 text-white py-2 rounded-md w-full mt-4 cursor-pointer " +
+                    (paymentInProgress ? "opacity-50 cursor-not-allowed" : "")
+                  }
                   onClick={createOrder}
                 >
-                  Proceed to Pay
+                  {paymentInProgress ? "Processing..." : "Proceed to Checkout"}
                 </button>
               </div>
             </div>

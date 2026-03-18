@@ -19,7 +19,6 @@ const Cart = ({ location, getLocation }) => {
   const getAddress = async () => {
     const res = await axiosInstance.get(`/addresses`);
     const data = await res.data;
-    console.log("adress issss in cartt", data);
     setAddresses(data);
   };
 
