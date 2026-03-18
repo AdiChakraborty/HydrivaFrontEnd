@@ -113,25 +113,10 @@ const OrderSummary = ({ location, getLocation }) => {
                   <span>${order?.totalAmount + 5}</span>
                 </div>
 
-                <div className="pt-3">
-                  <h1 className="mb-2 font-semibold text-gray-700">
-                    Apply promo code
-                  </h1>
-                  <div className="flex gap-3">
-                    <input
-                      type="text"
-                      placeholder="Enter code"
-                      className="p-2 rounded-md w-full border"
-                    />
-                    <button className="bg-white border px-4 rounded-md">
-                      Apply
-                    </button>
-                  </div>
-                </div>
+                
 
                 <button
-                  disabled={paymentInProgress}
-                  className="bg-red-500 text-white py-2 rounded-md w-full mt-4"
+                  className="bg-red-500 text-white py-2 rounded-md w-full mt-4 cursor-pointer"
                   onClick={createOrder}
                 >
                   Proceed to Pay

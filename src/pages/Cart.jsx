@@ -199,21 +199,7 @@ const Cart = ({ location, getLocation }) => {
                   <h1 className=" font-semibold text-lg">Grand Total</h1>
                   <p className=" font-semibold text-lg">${totalPrice + 5}</p>
                 </div>
-                <div>
-                  <h1 className=" mt-7 mb-3 font-semibold text-gray-700">
-                    Apply promo code
-                  </h1>
-                  <div className="flex gap-3">
-                    <input
-                      type="text"
-                      placeholder="Enter code"
-                      className=" p-2 rounded-md w-full"
-                    />
-                    <button className=" bg-white text-black border border-gray-200 px-4 py-1 cursor-pointer rounded-md">
-                      Apply
-                    </button>
-                  </div>
-                </div>
+            
                 <button
                   disabled={loading}
                   className="bg-red-500 text-white px-3 py-2 rounded-md w-full cursor-pointer mt-3"

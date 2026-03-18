@@ -27,7 +27,7 @@ function ProfilePage({ location, getLocation }) {
         {/*  top div  */}
         <div className="h-20 text-xl flex items-center">
           <ul className="flex flex-wrap text-sm font-medium text-center text-body border-b border-default">
-            <li className="me-2 text-xl ">
+            <li className="me-2 text-lg ">
               <a
                 href="#"
                 aria-current="page"
@@ -36,7 +36,7 @@ function ProfilePage({ location, getLocation }) {
                 Profile
               </a>
             </li>
-            <li className="me-2 text-xl">
+            <li className="me-2 text-lg">
               <a
                 href="#"
                 className="inline-block p-4 rounded-t-base hover:text-heading hover:bg-neutral-secondary-soft"

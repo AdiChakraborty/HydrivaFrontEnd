@@ -54,76 +54,92 @@ function Orders() {
         </ul>
       </div>
 
-        {/* mid part  */}
+      {/* mid part  */}
       <div className="max-w-6xl mx-auto">
         <div style={{ padding: "20px" }}>
-          <h1>My Orders</h1>
+          <h1 className="pb-5">My Orders</h1>
 
           {orders.map((order) => (
             <div
               key={order.id}
-              style={{
-                border: "1px solid #ddd",
-                marginBottom: "20px",
-                padding: "15px",
-                borderRadius: "8px",
-              }}
+              className="border-black border mb-5 p-4 rounded-md px-10"
             >
-              {/* Order Header */}
-              <div style={{ marginBottom: "10px" }}>
-                <strong>Order #{order.id}</strong>
-                <br />
-                Date: {new Date(order.createdAt).toLocaleDateString()}
-                <br />
-                Status: <b>{order.status}</b>
-                <br />
-                Total: ₹{order.totalAmount}
+              <div className="flex justify-between">
+                <div>
+                  {/* Items */}
+                  {order.items.map((item, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <img
+                        src={item.product.images?.[0]?.url}
+                        alt={item.product.title}
+                        width="80"
+                        height="80"
+                        style={{ objectFit: "cover", marginRight: "15px" }}
+                      />
+
+                      <div>
+                        <h4>{item.product.title}</h4>
+                        <p>Quantity: {item.quantity}</p>
+                        <p>Price: ₹{item.price}</p>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Shipping Address */}
+                  {order.shippingAddress && (
+                    <div
+                      style={{
+                        marginTop: "10px",
+                        background: "#f7f7f7",
+                        padding: "10px",
+                        borderRadius: "6px",
+                      }}
+                    >
+                      <strong>Delivery Address</strong>
+                      <p>
+                        {order.shippingAddress.city},{" "}
+                        {order.shippingAddress.district},{" "}
+                        {order.shippingAddress.postalCode}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Order Header */}
+                <div className="mb-3 flex flex-col items-center justify-center text-center">
+                  <strong>Order #{order.id}</strong>
+
+                  <span>
+                    Date: {new Date(order.createdAt).toLocaleDateString()}
+                  </span>
+
+                  <span>
+                    Status:{" "}
+                    <b
+                      className={
+                        order.status === "PAID"
+                          ? "text-green-500"
+                          : order.status === "FAILED"
+                            ? "text-red-500"
+                            : order.status === "PENDING"
+                              ? "text-yellow-500"
+                              : ""
+                      }
+                    >
+                      {order.status}
+                    </b>
+                  </span>
+
+                  <span>Total: ₹{order.totalAmount}</span>
+                </div>
               </div>
-
-              {/* Items */}
-              {order.items.map((item, index) => (
-                <div
-                  key={index}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <img
-                    src={item.product.images?.[0]?.url}
-                    alt={item.product.title}
-                    width="80"
-                    height="80"
-                    style={{ objectFit: "cover", marginRight: "15px" }}
-                  />
-
-                  <div>
-                    <h4>{item.product.title}</h4>
-                    <p>Quantity: {item.quantity}</p>
-                    <p>Price: ₹{item.price}</p>
-                  </div>
-                </div>
-              ))}
-
-              {/* Shipping Address */}
-              {order.shippingAddress && (
-                <div
-                  style={{
-                    marginTop: "10px",
-                    background: "#f7f7f7",
-                    padding: "10px",
-                    borderRadius: "6px",
-                  }}
-                >
-                  <strong>Delivery Address</strong>
-                  <p>
-                    {order.shippingAddress.city},{" "}
-                    {order.shippingAddress.district},{" "}
-                    {order.shippingAddress.postalCode}
-                  </p>
-                </div>
-              )}
             </div>
           ))}
         </div>
