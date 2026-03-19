@@ -87,7 +87,7 @@ const Cart = ({ location, getLocation }) => {
                           {item.title}
                         </h1>
                         <p className=" text-red-400 font-semibold text-lg">
-                          ${item.price * cartProduct.quantity}
+                          ₹{item.price * cartProduct.quantity}
                         </p>
                       </div>
                     </div>
@@ -135,6 +135,7 @@ const Cart = ({ location, getLocation }) => {
                       <input
                         type="checkbox"
                         style={{ width: 20, height: 20 }}
+                        className="cursor-pointer"
                         checked={selectedAddressId === addr.id}
                         onChange={(e) => selectAddress(addr.id)}
                       />
@@ -144,7 +145,7 @@ const Cart = ({ location, getLocation }) => {
                           {addr.isDefault && <p>Default</p>}
                         </div>
                         <p className="text-sm text-gray-600">
-                          {addr.addressLine1}, {addr.addressLine2}, {addr.city},{" "}
+                          {addr.addressLine1}, {addr.addressLine2}, {addr.city},
                           {addr.state}
                         </p>
                         <p className="text-sm text-gray-500">
@@ -216,7 +217,7 @@ const Cart = ({ location, getLocation }) => {
                     </span>
                     Items total
                   </h1>
-                  <p>${totalPrice}</p>
+                  <p>₹{totalPrice}</p>
                 </div>
                 <div className="flex justify-between items-center">
                   <h1 className="flex gap-1 items-center text-gray-700">
@@ -226,7 +227,7 @@ const Cart = ({ location, getLocation }) => {
                     Delivery Charge
                   </h1>
                   <p className="text-red-500 font-semibold">
-                    <span className=" text-gray-600 line-through">$25</span>FREE
+                    <span className=" text-gray-600 line-through">₹25</span>FREE
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
@@ -236,12 +237,12 @@ const Cart = ({ location, getLocation }) => {
                     </span>
                     Handling Charge
                   </h1>
-                  <p className="text-red-500 font-semibold">$5</p>
+                  <p className="text-red-500 font-semibold">₹5</p>
                 </div>
                 <hr className="text-gray-200 mt-2" />
                 <div className="flex justify-between items-center">
                   <h1 className=" font-semibold text-lg">Grand Total</h1>
-                  <p className=" font-semibold text-lg">${totalPrice + 5}</p>
+                  <p className=" font-semibold text-lg">₹{totalPrice + 5}</p>
                 </div>
 
                 <button

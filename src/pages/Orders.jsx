@@ -57,12 +57,12 @@ function Orders() {
       {/* mid part  */}
       <div className="max-w-6xl mx-auto">
         <div style={{ padding: "20px" }}>
-          <h1 className="pb-5">My Orders</h1>
+          <h1 className="pb-2 border-b border-gray-800 w-fit">My Orders</h1>
 
           {orders.map((order) => (
             <div
               key={order.id}
-              className="border-black border mb-5 p-4 rounded-md px-10"
+              className="border-black border mt-5 mb-5 p-4 rounded-md px-10"
             >
               <div className="flex justify-between">
                 <div>

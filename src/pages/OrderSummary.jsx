@@ -46,7 +46,7 @@ const OrderSummary = ({ location, getLocation }) => {
                 return (
                   <div
                     key={item.id}
-                    className="bg-gray-100 p-4 rounded-md flex items-center justify-between"
+                    className="bg-gray-100 p-4 rounded-md flex items-center justify-between "
                   >
                     <div className="flex gap-4 items-center">
                       <Image
@@ -59,7 +59,7 @@ const OrderSummary = ({ location, getLocation }) => {
                           {item.title}
                         </h1>
                         <p className="text-red-400 font-semibold text-lg">
-                          ${item.price * cartProduct.quantity}
+                          ₹{item.price * cartProduct.quantity}
                         </p>
                       </div>
                     </div>
@@ -68,7 +68,7 @@ const OrderSummary = ({ location, getLocation }) => {
                       onClick={() => deleteItem(item.id)}
                       className="text-red-500 hover:text-red-700"
                     >
-                      <FaRegTrashAlt />
+                      <FaRegTrashAlt className="cursor-pointer"/>
                     </button>
                   </div>
                 );
@@ -86,7 +86,7 @@ const OrderSummary = ({ location, getLocation }) => {
                   <span className="flex items-center gap-1">
                     <LuNotebookText /> Items total
                   </span>
-                  <span>{order?.totalAmount}</span>
+                  <span>₹{order?.totalAmount}</span>
                 </div>
 
                 <div className="flex justify-between items-center text-gray-700">
@@ -94,7 +94,7 @@ const OrderSummary = ({ location, getLocation }) => {
                     <MdDeliveryDining /> Delivery Charge
                   </span>
                   <span className="text-red-500 font-semibold">
-                    <span className="line-through text-gray-500 mr-1">$25</span>
+                    <span className="line-through text-gray-500 mr-1">₹25</span>
                     FREE
                   </span>
                 </div>
@@ -103,14 +103,14 @@ const OrderSummary = ({ location, getLocation }) => {
                   <span className="flex items-center gap-1">
                     <GiShoppingBag /> Handling Charge
                   </span>
-                  <span className="text-red-500 font-semibold">$5</span>
+                  <span className="text-red-500 font-semibold">₹5</span>
                 </div>
 
                 <hr />
 
                 <div className="flex justify-between items-center font-semibold text-lg">
                   <span>Grand Total</span>
-                  <span>${order?.totalAmount + 5}</span>
+                  <span>₹{order?.totalAmount + 5}</span>
                 </div>
 
                 <button

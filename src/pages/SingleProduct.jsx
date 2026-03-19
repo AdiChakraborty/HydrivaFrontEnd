@@ -66,9 +66,9 @@ const SingleProducts = () => {
                 {SingleProduct.category?.toUpperCase()}
               </div>
               <p className="text-xl text-red-500 font-bold">
-                ${SingleProduct.price}{" "}
+                ₹{SingleProduct.price}{" "}
                 <span className="line-through text-gray-700">
-                  ${OriginalPrice}
+                  ₹{OriginalPrice}
                 </span>{" "}
                 <span className="bg-red-500 text-white px-4 py-2 rounded-full">
                   {SingleProduct.discount}% discount
