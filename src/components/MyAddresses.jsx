@@ -41,6 +41,21 @@ export default function MyAddresses() {
 
   const submitAddress = () => {
     let payload;
+    if (editingId) {
+      payload = form;
+      axiosInstance
+        .put(`/addresses/${editingId}`, payload)
+        .then((res) => {
+          if (res?.data) {
+            getAddress();
+            setForm(defaultForm);
+            setEditingId(null);
+          }
+        })
+        .catch(() => alert("Something went wrong while saving your address"));
+      return;
+    }
+
     if (addresses.length === 0) {
       payload = {
         ...form,
@@ -50,7 +65,7 @@ export default function MyAddresses() {
       payload = form;
     }
     axiosInstance
-      .post(`/addresses`, form)
+      .post(`/addresses`, payload)
       .then((res) => {
         if (res?.data) {
           getAddress();
@@ -65,7 +80,16 @@ export default function MyAddresses() {
     setEditingId(addr.id);
   };
 
-  const makeDefault = (id) => {};
+  const makeDefault = (id) => {
+    axiosInstance
+      .put(`/addresses/${id}/default`)
+      .then((res) => {
+        if (res?.data) {
+          getAddress();
+        }
+      })
+      .catch(() => alert("Something went wrong while updating your address"));
+  };
 
   return (
     <>
@@ -111,7 +135,7 @@ export default function MyAddresses() {
                   <div className="flex flex-col gap-2 text-sm">
                     <button
                       onClick={() => editAddress(addr)}
-                      className="text-blue-600"
+                      className="text-blue-600 cursor-pointer"
                     >
                       Edit
                     </button>
@@ -119,7 +143,7 @@ export default function MyAddresses() {
                     {!addr.isDefault && (
                       <button
                         onClick={() => makeDefault(addr.id)}
-                        className="text-gray-600"
+                        className="text-gray-600 cursor-pointer"
                       >
                         Make Default
                       </button>

@@ -1,25 +1,65 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MyAddresses from "../components/MyAddresses";
 import { defaultProfileImg } from "../constants";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../lib/axiosInstance";
+import { toast } from "react-toastify";
 
 function ProfilePage({ location, getLocation }) {
-   const [profileFile, setProfileFile] = useState(null)
-    const fileInputRef = useRef();
-    const navigation = useNavigate()
-
-  function UploadImage() {
-    const fileInputRef = useRef();
-  }
+  const [profileFile, setProfileFile] = useState(null);
+  const fileInputRef = useRef();
+  const navigation = useNavigate();
 
   const handleClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleFileChange = (e) => {
+  useEffect(() => {
+    axiosInstance
+      .get("/profile")
+      .then((res) => {
+        if (res?.data?.profileImage) {
+          setProfileFile(res.data.profileImage);
+        }
+      })
+      .catch(() =>
+        toast.error("Something went wrong while fetching your profile picture"),
+      );
+  }, []);
+
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    console.log(file);
-    setProfileFile(file)
+    if (file) {
+      //logic to upload the file to the server
+      const uploadResponse = await axiosInstance.post(
+        "/upload/product-image",
+        {
+          image: file,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+      if (uploadResponse?.data?.url) {
+        setProfileFile(uploadResponse.data.url);
+        axiosInstance
+          .put("/profile", {
+            profileImage: uploadResponse.data.url,
+          })
+          .then((res) => {
+            if (res?.data) {
+              toast.success("Profile picture updated successfully");
+            }
+          })
+          .catch(() =>
+            toast.error(
+              "Something went wrong while updating your profile picture",
+            ),
+          );
+      }
+    }
   };
   return (
     <>
@@ -40,13 +80,11 @@ function ProfilePage({ location, getLocation }) {
               <a
                 href="#"
                 className="inline-block p-4 rounded-t-base hover:text-heading hover:bg-neutral-secondary-soft"
-                onClick={()=>navigation('/orders')}
+                onClick={() => navigation("/orders")}
               >
-               Order History
+                Order History
               </a>
             </li>
-       
-          
           </ul>
         </div>
         {/* mid portion */}
@@ -54,7 +92,13 @@ function ProfilePage({ location, getLocation }) {
         <div className="flex">
           <div>
             <img
-              src={profileFile ? typeof profileFile ==='object' ? URL.createObjectURL(profileFile): profileFile : defaultProfileImg}
+              src={
+                profileFile
+                  ? typeof profileFile === "object"
+                    ? URL.createObjectURL(profileFile)
+                    : profileFile
+                  : defaultProfileImg
+              }
               alt=""
               className="w-[200px] h-[200px] rounded-[50%] object-contain mx-5"
             />
