@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../assets/loding.webm";
 import Breadcrums from "../components/Breadcrums";
 import { IoCartOutline } from "react-icons/io5";
 import { useCart } from "../Context/CartContext";
 import axiosInstance from "../lib/axiosInstance";
 import CartButton from "../components/CartButton";
+import { AiOutlineShopping } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const SingleProducts = () => {
   const params = useParams();
   const [SingleProduct, setSingleProduct] = useState("");
-  const [qunatity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1);
+  const [buyNowLoading, setBuyNowLoading] = useState(false);
+  const { fetchCartItems } = useCart();
+  const navigate = useNavigate();
 
   const getSingleProduct = async () => {
     try {
@@ -35,6 +40,46 @@ const SingleProducts = () => {
       console.log("Error");
     }
   };
+  const getAddress = async () => {
+    const res = await axiosInstance.get(`/addresses`);
+    const data = res?.data?.length > 0 ? res?.data : [];
+    return data;
+  };
+
+  async function buyNow(product) {
+    try {
+      const response = await axiosInstance.post("/cart/add", {
+        productId: product.id,
+        quantity: 1,
+      });
+
+      if (response.data) {
+        const addresses = await getAddress();
+        const found = addresses.find((address) => address.isDefault === true);
+        const selected = found || addresses[0];
+        setBuyNowLoading(false);
+        fetchCartItems((cartItem) => {
+          navigate("/summary", {
+            state: {
+              order: {
+                totalAmount: product.price,
+                address: selected,
+              },
+              items: cartItem,
+            },
+          });
+        });
+      }
+
+      toast.success("Product added to cart!");
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+      toast.error(err.message);
+      setBuyNowLoading(false);
+    } finally {
+      setBuyNowLoading(false);
+    }
+  }
 
   useEffect(() => {
     getSingleProduct();
@@ -76,7 +121,7 @@ const SingleProducts = () => {
               </p>
               <p className="text-gray-600">{SingleProduct.description}</p>
 
-              {/* qunatity selector */}
+              {/* quantity selector */}
               <div className="flex items-center gap-4">
                 <label htmlFor="" className="text-sm font-medium text-gray-700">
                   Quantity:
@@ -85,15 +130,25 @@ const SingleProducts = () => {
                   type="number"
                   min={1}
                   max={10}
-                  value={qunatity}
+                  value={quantity}
                   className="w-20 border cursor-pointer border-gray-300 rounded-lg px-3
                    py-1 focus:outline-none focus:ring-2 foucs:ring-red-500"
                   onChange={(e) => setQuantity(Number(e.target.value))}
                 />
               </div>
-              <div className="flex gap-4 mt-4"> <CartButton product={SingleProduct} /></div>
-
-           
+              <div className="flex gap-3">
+                <CartButton product={SingleProduct} cartQuantity={quantity}/>
+                <button
+                  onClick={() => buyNow(SingleProduct)}
+                  disabled={buyNowLoading}
+                  className={
+                    "bg-black text-white px-4 py-2 text-lg rounded-md cursor-pointer flex gap-2 items-center justify-center font-semibold " +
+                    (buyNowLoading ? " opacity-50 cursor-not-allowed" : "")
+                  }
+                >
+                  <AiOutlineShopping className="w-6 h-6" /> Buy now
+                </button>
+              </div>
             </div>
           </div>
         </div>

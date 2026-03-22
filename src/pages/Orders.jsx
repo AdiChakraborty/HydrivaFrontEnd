@@ -23,9 +23,23 @@ function Orders() {
     fetchOrders();
   }, []);
 
-  if (loading) return <h2>Loading orders...</h2>;
+  if (loading)
+    return (
+      <div className="flex flex-col gap-3 justify-center items-center h-[600px]">
+        <h1 className=" font-bold text-2xl text-red-300 text-muted">
+          Loading...
+        </h1>
+      </div>
+    );
 
-  if (!orders.length) return <h2>No orders yet</h2>;
+  if (!orders.length)
+    return (
+      <div className="flex flex-col gap-3 justify-center items-center h-[600px]">
+        <h1 className=" font-bold text-2xl text-red-300 text-muted">
+          No Orders Yet
+        </h1>
+      </div>
+    );
 
   return (
     <>

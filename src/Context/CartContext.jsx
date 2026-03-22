@@ -18,7 +18,7 @@ export const CartProvider = ({ children }) => {
   const { isAuthenticated, accessToken } = useAuth();
 
   // Fetch cart items from API
-  const fetchCartItems = useCallback(async () => {
+  const fetchCartItems = useCallback(async (callback) => {
     if (!isAuthenticated || loading || !accessToken) return;
 
     setLoading(true);
@@ -26,6 +26,7 @@ export const CartProvider = ({ children }) => {
       const response = await axiosInstance.get("/cart");
       console.log("Cart items fetched:", response.data.items);
       setCartItem(response.data.items || []);
+      if(callback) callback(response.data.items || [])
       setLoading(false);
       setError(null);
     } catch (err) {
@@ -184,4 +185,5 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-export const useCart = () => useContext(CartContext);
+export const 
+useCart = () => useContext(CartContext);

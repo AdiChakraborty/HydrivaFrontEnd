@@ -10,7 +10,7 @@ import Image from "../components/Image";
 import { startPayment } from "../services/paymentService";
 
 const OrderSummary = ({ location, getLocation }) => {
-  const { updateQuantity, deleteItem } = useCart();
+  const { updateQuantity, deleteItem, fetchCartItems } = useCart();
   const { state } = useLocation();
   const [paymentInProgress, setPaymentInProgress] = React.useState(false);
   const navigate = useNavigate();
@@ -22,12 +22,15 @@ const OrderSummary = ({ location, getLocation }) => {
     await startPayment({
       onSuccess: () => {
         navigate("/orders");
+        fetchCartItems();
         setPaymentInProgress(false);
       },
-      addressId: order.addressId,
+      addressId: order.address.id,
       onFailure: () => setPaymentInProgress(false),
     });
   };
+
+  const addr = order.address
 
   return (
     <div className="mt-10 max-w-6xl mx-auto mb-10 px-4">
@@ -40,39 +43,63 @@ const OrderSummary = ({ location, getLocation }) => {
           {/* MAIN LAYOUT */}
           <div className="flex flex-col lg:flex-row gap-10">
             {/* LEFT: CART ITEMS */}
-            <div className="flex-1 space-y-4">
-              {cartItem.map((cartProduct) => {
-                const item = cartProduct?.product;
-                return (
-                  <div
-                    key={item.id}
-                    className="bg-gray-100 p-4 rounded-md flex items-center justify-between "
-                  >
-                    <div className="flex gap-4 items-center">
-                      <Image
-                        src={item.images[0]?.url}
-                        alt={item.title}
-                        className="h-20 w-20 rounded-md object-cover"
-                      />
-                      <div>
-                        <h1 className="line-clamp-2 max-w-[300px]">
-                          {item.title}
-                        </h1>
-                        <p className="text-red-400 font-semibold text-lg">
-                          ₹{item.price * cartProduct.quantity}
-                        </p>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => deleteItem(item.id)}
-                      className="text-red-500 hover:text-red-700"
+            <div className="flex flex-1 flex-col gap-3">
+              <div className="flex-1 space-y-4">
+                {cartItem.map((cartProduct) => {
+                  const item = cartProduct?.product;
+                  return (
+                    <div
+                      key={item.id}
+                      className="bg-gray-100 p-4 rounded-md flex items-center justify-between "
                     >
-                      <FaRegTrashAlt className="cursor-pointer"/>
-                    </button>
-                  </div>
-                );
-              })}
+                      <div className="flex gap-4 items-center">
+                        <Image
+                          src={item.images[0]?.url}
+                          alt={item.title}
+                          className="h-20 w-20 rounded-md object-cover"
+                        />
+                        <div>
+                          <h1 className="line-clamp-2 max-w-[300px]">
+                            {item.title}
+                          </h1>
+                          <p className="text-red-400 font-semibold text-lg">
+                            ₹{item.price * cartProduct.quantity}
+                          </p>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => deleteItem(item.id)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <FaRegTrashAlt className="cursor-pointer" />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="bg-white border border-gray-100 shadow-xl rounded-md p-5 mt-4 space-y-2 h-max">
+                <div className="space-y-3">
+                  <h1 className="text-gray-800 font-bold text-lg">
+                    Delivering to
+                  </h1>
+   
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <p className="font-semibold">{addr.fullName}</p>
+                        {addr.isDefault && <p>Default</p>}
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        {addr.addressLine1}, {addr.addressLine2}, {addr.city},{" "}
+                        {addr.state}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Phone: {addr.phone}
+                      </p>
+                    </div>
+                  
+                </div>
+              </div>
             </div>
 
             {/* RIGHT: BILL DETAILS */}

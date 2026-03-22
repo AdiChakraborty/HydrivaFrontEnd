@@ -2,7 +2,7 @@ import React from "react";
 import { useCart } from "../Context/CartContext";
 import { IoCartOutline } from "react-icons/io5";
 
-const CartButton = ({ addToCartButtonClassName, product }) => {
+const CartButton = ({ addToCartButtonClassName, product, cartQuantity }) => {
   const { addToCart, cartItem, updateQuantity, loading } = useCart();
 
   const cartProduct = React.useMemo(() => {
@@ -38,7 +38,7 @@ const CartButton = ({ addToCartButtonClassName, product }) => {
         </div>
       ) : (
         <button
-          onClick={() => addToCart(product)}
+          onClick={() => addToCart(product, cartQuantity)}
           disabled={loading}
           className={
             "bg-red-500 text-white px-4 py-2 text-lg rounded-md cursor-pointer flex gap-2 items-center justify-center font-semibold " +

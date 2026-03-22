@@ -41,7 +41,7 @@ const Cart = ({ location, getLocation }) => {
       state: {
         order: {
           totalAmount: totalPrice,
-          addressId: selectedAddressId,
+          address: addresses.find(address => address.id === selectedAddressId),
         },
         items: cartItem,
       },
