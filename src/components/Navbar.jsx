@@ -4,6 +4,7 @@ import { FaCaretDown } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { HiMenuAlt1, HiMenuAlt3 } from "react-icons/hi";
+import  ResponsiveMenu from "./ResponsiveMenu";
 
 import { CgClose } from "react-icons/cg";
 import { useAuth } from "../Context/AuthContext";
@@ -28,7 +29,7 @@ const Navbar = ({ location, getLocation, openDropdown, setOpenDropdown }) => {
         {/* logo section */}
         <div className="flex gap-7 items-center">
           <Link to={"/"}>
-            <h1 className="font-bold text-3xl">
+            <h1 className="font-bold text-2xl md:text-3xl">
               <span className="text-red-500 font-sarif">Hy</span>driva
             </h1>
           </Link>

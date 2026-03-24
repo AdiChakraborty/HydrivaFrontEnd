@@ -30,7 +30,7 @@ const ProductCard = ({ product }) => {
       <h1 className="line-clamp-2 p-1 m-1 font-semibold min-h-[56px]">
         {product.title}
       </h1>
-      <p className="my-1 text-lg text-gray-800 font-bold">${product.price}</p>
+      <p className="my-1 text-lg text-gray-800 font-bold">₹{product.price}</p>
       <CartButton product={product} addToCartButtonClassName="w-full" />
     </div>
   );

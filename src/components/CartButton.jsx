@@ -41,7 +41,7 @@ const CartButton = ({ addToCartButtonClassName, product, cartQuantity }) => {
           onClick={() => addToCart(product, cartQuantity)}
           disabled={loading}
           className={
-            "bg-red-500 text-white px-4 py-2 text-lg rounded-md cursor-pointer flex gap-2 items-center justify-center font-semibold " +
+            "bg-red-500 text-white md:px-4 px-2 md:py-2 py-1  md:text-lg text-lg rounded-md cursor-pointer flex gap-2 items-center justify-center font-semibold " +
             addToCartButtonClassName +
             (loading ? " opacity-50 cursor-not-allowed" : "")
           }

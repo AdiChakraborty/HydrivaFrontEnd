@@ -16,8 +16,8 @@ const MidBanner = () => {
         }}
       >
         <div className=" absolute inset-0 bg-black/60 md:rounded-2xl bg-opacity-50 flex items-center justify-center">
-          <div className="text-center text-white px-[180px]">
-            <h1 className="text-3xl md:text-5xl lg:text-3xl font-bold mb-4 ">
+          <div className="text-center text-white px-[70px]">
+            <h1 className="text-3xl md:text-5xl text-lg lg:text-3xl font-bold mb-4 ">
               HYDRIVA mugs are designed to keep your drink hot or cold for hours
               — perfect for desks, drives, and long days.
             </h1>

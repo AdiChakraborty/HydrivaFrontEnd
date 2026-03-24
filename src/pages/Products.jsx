@@ -88,11 +88,11 @@ const Products = () => {
                         return <ProductCard key={index} product={product} />;
                       })}
                   </div>
-                  {/* <Pagination
+                  <Pagination
                     pageHandler={pageHandler}
                     page={page}
                     dynamicPage={dynamicPage}
-                  /> */}
+                  />
                 </div>
               ) : (
                 <div className="flex justify-center items-center md:h-[600px] md:w-[900px] mt-10">

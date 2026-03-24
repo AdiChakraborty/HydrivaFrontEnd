@@ -61,7 +61,7 @@ const Carousel = () => {
               key={index}
               className="bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] -z-10"
             >
-              <div className="flex flex-col md:flex-row my-20 md:my-0 gap-10 justify-center h-[600px] items-center px-4">
+              <div className="flex flex-col md:flex-row my-10 md:my-0 gap-10 justify-center h-[600px] items-center px-4">
                 <div className="md:space-y-6 space-y-3">
                   <h3 className="text-red-500 font-semibold font-sans text-sm">
                     Fuel your day. One sip at a time.
@@ -74,7 +74,7 @@ const Carousel = () => {
                     {item.description}{" "}
                   </p>
                   <button className="bg-gradient-to-r from-red-500 to-purple-500 
-                  text-white px-3 py-2 rounded-md cursor-pointer mt-2" onClick={()=>navigate(`/products/${item.id}`)}>
+                  text-white md:px-3 px-3 py-2 mt-1 md:py-2 rounded-md cursor-pointer md:mt-2" onClick={()=>navigate(`/products/${item.id}`)}>
                     Shop Now
                   </button>
                 </div>
