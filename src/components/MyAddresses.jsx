@@ -98,9 +98,9 @@ export default function MyAddresses() {
         {addresses?.length > 0 && (
           <>
             <div className="flex justify-between mb-6 mt-6">
-              <h1 className="text-2xl font-semibold">My Addresses</h1>
+              <h1 className="md:text-2xl text-xl font-semibold">My Addresses</h1>
               <button
-                className="text-lg px-6 py-2 bg-black text-white rounded-md cursor-pointer"
+                className="md:text-lg text-sm md:px-6 px-3 md:py-3 py-2 bg-black text-white rounded-md cursor-pointer"
                 onClick={() => setShowAddAddressform(!showAddAddressform)}
               >
                 + Add Address

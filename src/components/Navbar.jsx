@@ -161,7 +161,7 @@ const Navbar = ({ location, getLocation, openDropdown, setOpenDropdown }) => {
           )}
         </nav>
       </div>
-      {/* <ResponsiveMenu openNav={openNav} setOpenNav={setOpenNav}/> */}
+      <ResponsiveMenu openNav={openNav} setOpenNav={setOpenNav}/>
     </div>
   );
 };

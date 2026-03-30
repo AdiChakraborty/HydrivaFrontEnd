@@ -65,7 +65,7 @@ function ProfilePage({ location, getLocation }) {
     <>
       <div className="max-w-6xl mx-auto">
         {/*  top div  */}
-        <div className="h-20 text-xl flex items-center">
+        <div className="h-20 md:text-xl text-sm flex items-center">
           <ul className="flex flex-wrap text-sm font-medium text-center text-body border-b border-default">
             <li className="me-2 text-lg ">
               <a
@@ -88,7 +88,7 @@ function ProfilePage({ location, getLocation }) {
           </ul>
         </div>
         {/* mid portion */}
-        <h1 className="mx-5 text-3xl pt-7 pb-7 ">Profile Picture</h1>
+        <h1 className="mx-5 md:text-3xl text-xl pt-7 pb-7 ">Profile Picture</h1>
         <div className="flex">
           <div>
             <img
@@ -100,16 +100,16 @@ function ProfilePage({ location, getLocation }) {
                   : defaultProfileImg
               }
               alt=""
-              className="w-[200px] h-[200px] rounded-[50%] object-contain mx-5"
+              className="md:w-[200px] md:h-[200px] rounded-[50%] object-contain mx-5 w-[100px] h-[100px] "
             />
           </div>
 
           <div>
-            <p className="text-gray-800 ml-6 text-2xl pt-8 pb-8">
+            <p className="text-gray-800 ml-6 md:text-2xl text-sm pt-8 pb-8">
               We only support png or jpg.
             </p>
-            <div className="flex gap-10  ml-6">
-              <div>
+            <div className="flex md:gap-10 gap-5  ml-6">
+              
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -119,13 +119,13 @@ function ProfilePage({ location, getLocation }) {
 
                 <button
                   onClick={handleClick}
-                  className="bg-red-500 text-white px-5 py-2 text-lg rounded-md cursor-pointer"
+                  className="bg-red-500 text-white md:px-5 px-3 md:py-2 py-1 md:text-lg text-sm rounded-md  cursor-pointer"
                 >
-                  Upload your image
+                  Upload your Image
                 </button>
-              </div>
-              <button className="bg-red-500 text-white px-5 py-2 text-lg rounded-md cursor-pointer">
-                Delete image
+              
+              <button className="bg-red-500 text-white md:px-5 px-3 md:py-2 py-1 md:text-lg text-sm mr-5 rounded-md cursor-pointer">
+                Delete Image
               </button>
             </div>
           </div>

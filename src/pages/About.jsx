@@ -5,9 +5,9 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-20">
       <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8 space-y-8">
-        <h1 className="text-4xl font-bold  text-center">About Hydriva</h1>
+        <h1 className="md:text-4xl text-2xl font-bold  text-center">About Hydriva</h1>
 
-        <p className="text-gray-700 text-lg">
+        <p className="text-gray-700 md:text-lg text-sm">
           HYDRIVA is built for people who live life on the move. From early
           morning coffee to long workdays and workouts, we believe hydration
           should be effortless, reliable, and stylish. Our products are designed
@@ -21,7 +21,7 @@ const About = () => {
         </p>
 
         <div className="space-y-6">
-          <h2 className="text-2xl font-semibold text-red-600">Our Mission</h2>
+          <h2 className="md:text-2xl text-xl font-semibold text-red-600">Our Mission</h2>
           <p className="text-gray-700 text-base">
             To design premium hydration essentials that seamlessly fit into
             modern lifestyles, delivering performance, simplicity, and lasting
@@ -30,7 +30,7 @@ const About = () => {
         </div>
 
         <div className="space-y-6">
-          <h2 className="text-2xl font-semibold text-red-600">
+          <h2 className="md:text-2xl text-xl font-semibold text-red-600">
             Why Choose Hydriva?
           </h2>
           <ul className="list-disc pl-6 text-gray-700 space-y-2">
@@ -42,7 +42,7 @@ const About = () => {
         </div>
 
         <div className="space-y-6">
-          <h2 className="text-2xl font-semibold text-red-600">Our Vision</h2>
+          <h2 className="md:text-2xl text-xl font-semibold text-red-600">Our Vision</h2>
           <p className="text-gray-700 text-base">
             To redefine everyday hydration by building a brand known for minimal
             design, reliable quality, and conscious living.

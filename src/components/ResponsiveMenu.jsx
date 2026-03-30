@@ -1,5 +1,5 @@
-import { UserButton, useUser } from "@clerk/clerk-react";
-import React from "react";
+
+
 import { FaUserCircle } from "react-icons/fa";
 import { NavLink,Link } from "react-router-dom";
 
@@ -13,13 +13,13 @@ function ResponsiveMenu({ openNav, setOpenNav }) {
      flex-col justify-between bg-white px-8 pb-6 pt-16 text-black md:hidden rounded-r-xl shadow-md transition-all`}
     >
       <div>
-        <div className=" flex items-center justify-start gap-3">
+        {/* <div className=" flex items-center justify-start gap-3">
           {user ? <UserButton size={50} /> : <FaUserCircle size={50} />}
           <div>
             <h1>Hello,{user?.firstName}</h1>
             <h1 className="text-sm text-slate-500">Primium User</h1>
           </div>
-        </div>
+        </div> */}
         <nav className="mt-12">
           <ul className="flex flex-col gap-7 text-2xl font-semibold">
                         <Link to={'/'} onClick={()=>setOpenNav(false)} className="cursor-pointer "><li>Home</li></Link>

@@ -46,7 +46,7 @@ function Orders() {
       {/* top portion */}
       <div className="h-20 text-xl flex items-center max-w-6xl mx-auto">
         <ul className="flex flex-wrap text-sm font-medium text-center text-body border-b border-default">
-          <li className="me-2 text-xl ">
+          <li className="me-2 md:text-xl text-sm ">
             <a
               href="#"
               aria-current="page"
@@ -56,7 +56,7 @@ function Orders() {
               Profile
             </a>
           </li>
-          <li className="me-2 text-xl">
+          <li className="me-2 md:text-xl text-sm">
             <a
               href="#"
               className="inline-block p-4 rounded-t-base hover:text-heading hover:bg-neutral-secondary-soft"
