@@ -1,23 +1,42 @@
 import { Home, MapPin } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { HiMenuAlt1, HiMenuAlt3 } from "react-icons/hi";
-import  ResponsiveMenu from "./ResponsiveMenu";
+import ResponsiveMenu from "./ResponsiveMenu";
 
 import { CgClose } from "react-icons/cg";
 import { useAuth } from "../Context/AuthContext";
 import { useCart } from "../Context/CartContext";
+import axiosInstance from "../lib/axiosInstance";
+import { defaultProfileImg } from "../constants";
+import ProfilePopover from "./ProfileDropdown";
 
 const Navbar = ({ location, getLocation, openDropdown, setOpenDropdown }) => {
   const { isAuthenticated, signOut, user } = useAuth();
   const [openNav, setOpenNav] = useState(false);
+  const [openPopover, setOpenPopover] = useState(false);
+  const [profileFile, setProfileFile] = useState(null);
   const { cartItem = [] } = useCart();
   console.log("Cart items in Navbar:", cartItem);
   console.log("User in Navbar:", user);
 
   const navigation = useNavigate();
+
+  useEffect(() => {
+    if(!isAuthenticated){
+      return 
+    }
+    axiosInstance
+      .get("/profile")
+      .then((res) => {
+        if (res?.data?.profileImage) {
+          setProfileFile(res.data.profileImage);
+        }
+      })
+      .catch(() => setProfileFile(null));
+  }, [isAuthenticated]);
 
   const toggleDropdown = () => {
     setOpenDropdown(!openDropdown);
@@ -125,26 +144,37 @@ const Navbar = ({ location, getLocation, openDropdown, setOpenDropdown }) => {
           </Link>
           <div className="hidden md:block">
             {isAuthenticated ? (
-              <>
-                {" "}
+              <ProfilePopover
+                open={openPopover}
+                setOpen={setOpenPopover}
+                onProfileClick={() => {
+                  navigation("/profile");
+                  setOpenPopover(false);
+                }}
+                onSignout={() => {
+                  signOut();
+                  setOpenPopover(false);
+                }}
+              >
                 <img
-                  src="https://pyxis.nymag.com/v1/imgs/e58/4e4/fa63c8d6bdbbddcf57c597729a01298bf4-christianbale-blog.1x.rsquare.w1400.jpg"
+                  src={
+                    profileFile
+                      ? typeof profileFile === "object"
+                        ? URL.createObjectURL(profileFile)
+                        : profileFile
+                      : defaultProfileImg
+                  }
                   alt=""
-                  className="h-[40px]
-               rounded-[50%] bg-contain mx-5 cursor-pointer"
-                  onClick={() => navigation("/profile")}
+                  className="h-[40px] w-[40px] rounded-[50%] bg-contain mx-5 cursor-pointer"
+                  onClick={() => setOpenPopover((prev) => !prev)}
                 />
-              </>
+              </ProfilePopover>
             ) : (
               <button
                 className="bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer"
-                onClick={
-                  isAuthenticated
-                    ? () => signOut()
-                    : () => navigation("/sign-in")
-                }
+                onClick={() => navigation("/sign-in")}
               >
-                {isAuthenticated ? "Sign Out" : "Sign In"}
+                Sign In
               </button>
             )}
           </div>
@@ -161,7 +191,11 @@ const Navbar = ({ location, getLocation, openDropdown, setOpenDropdown }) => {
           )}
         </nav>
       </div>
-      <ResponsiveMenu openNav={openNav} setOpenNav={setOpenNav}/>
+      <ResponsiveMenu
+        openNav={openNav}
+        setOpenNav={setOpenNav}
+        profileFile={profileFile}
+      />
     </div>
   );
 };

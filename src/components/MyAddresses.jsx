@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../Context/AuthContext";
 import axiosInstance from "../lib/axiosInstance";
 
@@ -18,7 +18,7 @@ const defaultForm = {
 export default function MyAddresses() {
   const [addresses, setAddresses] = useState([]);
   const [showAddAddressform, setShowAddAddressform] = useState(false);
-
+  const bottomLocator = useRef(null);
   const { user } = useAuth();
 
   const [form, setForm] = useState(defaultForm);
@@ -76,6 +76,14 @@ export default function MyAddresses() {
   };
 
   const editAddress = (addr) => {
+    const element = bottomLocator.current;
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+
+    setShowAddAddressform(true);
     setForm(addr);
     setEditingId(addr.id);
   };
@@ -91,6 +99,16 @@ export default function MyAddresses() {
       .catch(() => alert("Something went wrong while updating your address"));
   };
 
+  const onAddAddressClick = () => {
+    const element = bottomLocator.current;
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+    setShowAddAddressform(!showAddAddressform);
+  };
+
   return (
     <>
       <div className="px-5 mx-auto">
@@ -98,10 +116,12 @@ export default function MyAddresses() {
         {addresses?.length > 0 && (
           <>
             <div className="flex justify-between mb-6 mt-6">
-              <h1 className="md:text-2xl text-xl font-semibold">My Addresses</h1>
+              <h1 className="md:text-2xl text-xl font-semibold">
+                My Addresses
+              </h1>
               <button
                 className="md:text-lg text-sm md:px-6 px-3 md:py-3 py-2 bg-black text-white rounded-md cursor-pointer"
-                onClick={() => setShowAddAddressform(!showAddAddressform)}
+                onClick={onAddAddressClick}
               >
                 + Add Address
               </button>
@@ -154,7 +174,6 @@ export default function MyAddresses() {
             </div>
           </>
         )}
-
         {showAddAddressform && (
           <div className="max-w-6xl mx-auto p-6 bg-white shadow rounded-lg mb-5 mt-5">
             <h2 className="text-xl font-semibold mb-6">Basic Information</h2>
@@ -349,6 +368,8 @@ export default function MyAddresses() {
             </div>
           </div>
         )}
+        <div ref={bottomLocator}></div>
+
       </div>
     </>
   );

@@ -18,13 +18,13 @@ const ProductCard = ({ product }) => {
 
   return (
     <div
-      className=" border relative border-gray-100 rounded-2xl cursor-pointer hover:scale-105 
+      className=" border relative border-gray-100 rounded-2xl cursor-pointer aspect-square hover:scale-105 
     hover:shawod-2xl transition-all p-2 h-max"
     >
       <Image
         src={imgSrc}
         alt={product.title}
-        className=" bg-gray-100 aspect-square"
+        className=" bg-gray-100 w-full h-full"
         onClick={() => navigate(`/products/${product.slug}`)}
       />
       <h1 className="line-clamp-2 p-1 m-1 font-semibold min-h-[56px]">

@@ -85,6 +85,9 @@ export function useAuth() {
     setUser(null);
     setSession(null);
     setLoading(false);
+    localStorage.clear()
+    sessionStorage.clear()
+    window.location.href = '/'
   }, []);
 
   // 🔐 Access token (for backend API calls)
