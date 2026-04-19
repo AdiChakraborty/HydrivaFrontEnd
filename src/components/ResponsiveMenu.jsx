@@ -2,11 +2,30 @@ import { FaUserCircle } from "react-icons/fa";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { defaultProfileImg } from "../constants";
+import { useRef } from "react";
+import { useClickOutside } from "../hooks/useClickOutside";
 
-function ResponsiveMenu({ openNav, setOpenNav, profileFile }) {
-  const navigation = useNavigate()
+function ResponsiveMenu({
+  openNav,
+  setOpenNav,
+  profileFile,
+  isAuthenticated,
+  user,
+}) {
+  const navigation = useNavigate();
+  const responsiveMenuRef = useRef(null);
+  useClickOutside(responsiveMenuRef, () => {
+    setOpenNav(false);
+  });
+
+  const navigateToSignIn = () => {
+     navigation("/sign-in")
+     setOpenNav(false)
+
+  }
   return (
     <div
+      ref={responsiveMenuRef}
       className={`${
         openNav ? "left-0" : "-left-[100%]"
       } fixed top-0 bottom-0 z-20 flex h-screen w-[75%]
@@ -14,7 +33,7 @@ function ResponsiveMenu({ openNav, setOpenNav, profileFile }) {
     >
       <div>
         <div className=" flex items-center justify-start gap-3">
-          {profileFile ? (
+          {isAuthenticated && profileFile ? (
             <div>
               <img
                 src={
@@ -25,7 +44,7 @@ function ResponsiveMenu({ openNav, setOpenNav, profileFile }) {
                     : defaultProfileImg
                 }
                 alt=""
-                className="h-[50px] w-[5x0px] rounded-[50%] bg-contain cursor-pointer"
+                className="h-[50px] w-[50px] rounded-[50%] bg-contain cursor-pointer"
                 onClick={() => navigation("/profile")}
               />
             </div>
@@ -33,8 +52,21 @@ function ResponsiveMenu({ openNav, setOpenNav, profileFile }) {
             <FaUserCircle size={50} />
           )}
           <div>
-            <h1>Hello</h1>
-            {/* <h1 className="text-sm text-slate-500">Primium User</h1> */}
+            {isAuthenticated ? (
+              <>
+                <h1>Hello</h1>
+                <h1 className="text-sm text-slate-500">{user?.email?.split("@")?.[0]}</h1>
+              </>
+            ) : (
+              <>
+                <button
+                  className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-5 border border-red-500 hover:border-transparent rounded-xl"
+                  onClick={navigateToSignIn}
+                >
+                  Sign In
+                </button>
+              </>
+            )}
           </div>
         </div>
         <nav className="mt-5">

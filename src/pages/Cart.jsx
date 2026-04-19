@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import emptyCart from "../assets/empty-cart.png";
 import Image from "../components/Image";
 import axiosInstance from "../lib/axiosInstance";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify/unstyled";
 
 const Cart = ({ location, getLocation }) => {
   const { cartItem, updateQuantity, deleteItem, loading, createOrder } =
@@ -34,7 +36,7 @@ const Cart = ({ location, getLocation }) => {
 
   const proceedToCheckOut = () => {
     if (!selectedAddressId) {
-      alert("Please select an address to proceed");
+      toast.error("Please select an address to proceed");
       return;
     }
     navigate("/summary", {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { loadRazorpay } from "../utils/loadRazorpay";
 import axiosInstance from "../lib/axiosInstance";
+import { toast } from "react-toastify";
 
 export const startPayment = async ({ addressId, onSuccess, onFailure }) => {
   try {
@@ -44,7 +45,7 @@ export const startPayment = async ({ addressId, onSuccess, onFailure }) => {
           orderId,
         });
 
-        alert("Payment successful 🎉");
+        toast.success("Payment successful 🎉");
         onSuccess();
       },
 

@@ -23,7 +23,7 @@ function SignIn() {
   return (
     <>
       <div className="bg-gray-50">
-        <div className="min-h-screen flex flex-col items-center justify-center py-6 px-4">
+        <div className="md:min-h-screen flex flex-col items-center justify-center py-6 px-4">
           <div className="max-w-[480px] w-full">
             <div className="text-lg text-center mb-3">
               <span

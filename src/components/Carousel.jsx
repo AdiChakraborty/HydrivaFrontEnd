@@ -23,7 +23,7 @@ const Carousel = () => {
     const {className,style,onClick} = props;
     return(
       <div onClick={onClick} className={`arrow ${className}`} style={{zIndex:3}}>
-        <AiOutlineArrowRight className="arrows" style={{...style, display:'block', borderRadius:"50px",background:"#f53347",
+        <AiOutlineArrowRight className="arrows" style={{...style, display:'none', borderRadius:"50px",background:"#f53347",
          color:"white", position:"absolute",padding:"2px", right:"50px"}}/>
       </div>
     )
@@ -32,7 +32,7 @@ const Carousel = () => {
     const {className,style,onClick} = props;
     return(
       <div onClick={onClick} className={`arrow ${className}`} style={{zIndex:3}}>
-      <AiOutlineArrowLeft className="arrows"   style={{...style, display:'block', borderRadius:"50px",background:"#f53347",
+      <AiOutlineArrowLeft className="arrows"   style={{...style, display:'none', borderRadius:"50px",background:"#f53347",
          color:"white", position:"absolute",padding:"2px", left:"50px"}}/>
       </div>
     )
@@ -74,7 +74,7 @@ const Carousel = () => {
                     {item.description}{" "}
                   </p>
                   <button className="bg-gradient-to-r from-red-500 to-purple-500 
-                  text-white md:px-3 px-3 py-2 mt-1 md:py-2 rounded-md cursor-pointer md:mt-2" onClick={()=>navigate(`/products/${item.id}`)}>
+                  text-white md:px-3 px-3 py-2 mt-1 md:py-2 rounded-md cursor-pointer md:mt-2" onClick={()=>navigate(`/products/${item.slug}`)}>
                     Shop Now
                   </button>
                 </div>

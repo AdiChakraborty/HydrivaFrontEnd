@@ -29,19 +29,24 @@ function ProfilePage({ location, getLocation }) {
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
+    let uploadResponse;
     if (file) {
       //logic to upload the file to the server
-      const uploadResponse = await axiosInstance.post(
-        "/upload/product-image",
-        {
-          image: file,
-        },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
+      try {
+        uploadResponse = await axiosInstance.post(
+          "/upload/product-image",
+          {
+            image: file,
           },
-        },
-      );
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          },
+        );
+      } catch (error) {
+        alert("Something went wrong. Please make sure you're uploading images of size less than 5MB")
+      }
       if (uploadResponse?.data?.url) {
         setProfileFile(uploadResponse.data.url);
         axiosInstance
@@ -60,6 +65,20 @@ function ProfilePage({ location, getLocation }) {
           );
       }
     }
+  };
+  const handleDeleteImage = async (e) => {
+    axiosInstance
+      .put("/profile", {
+        profileImage: "",
+      })
+      .then((res) => {
+        if (res?.data) {
+          toast.success("Profile picture deleted successfully");
+        }
+      })
+      .catch(() =>
+        toast.error("Something went wrong while deleting your profile picture"),
+      );
   };
   return (
     <>
@@ -105,26 +124,28 @@ function ProfilePage({ location, getLocation }) {
           </div>
 
           <div>
-            <p className="text-gray-800 ml-6 md:text-2xl text-sm pt-8 pb-8">
-              We only support png or jpg.
+            <p className="text-gray-800 ml-6 md:text-2xl text-sm py-3 md:py-8">
+              We only support png or jpg (max 5 MB)
             </p>
-            <div className="flex md:gap-10 gap-5  ml-6">
-              
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
+            <div className="flex md:gap-10 gap-5 ml-6">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+              />
 
-                <button
-                  onClick={handleClick}
-                  className="bg-red-500 text-white md:px-5 px-3 md:py-2 py-1 md:text-lg text-sm rounded-md  cursor-pointer"
-                >
-                  Upload your Image
-                </button>
-              
-              <button className="bg-red-500 text-white md:px-5 px-3 md:py-2 py-1 md:text-lg text-sm mr-5 rounded-md cursor-pointer">
+              <button
+                onClick={handleClick}
+                className="bg-red-500 text-white md:px-5 px-3 md:py-2 py-1 md:text-lg text-xs rounded-md  cursor-pointer"
+              >
+                Upload your Image
+              </button>
+
+              <button
+                className="bg-red-500 text-white md:px-5 px-3 md:py-2 py-1 md:text-lg text-xs mr-5 rounded-md cursor-pointer"
+                onClick={handleDeleteImage}
+              >
                 Delete Image
               </button>
             </div>

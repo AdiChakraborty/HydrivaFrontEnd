@@ -6,6 +6,8 @@ import { DataProvider } from "./Context/DataContext.jsx";
 import { CartProvider } from "./Context/CartContext.jsx";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
+import {isMobile} from 'react-device-detect';
+
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -21,7 +23,7 @@ createRoot(document.getElementById("root")).render(
           <App />
           {/* <ScrollToTop smooth/> */}
           <ToastContainer
-            position="bottom-right"
+            position={isMobile ? "top-center" : "bottom-right"}
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}

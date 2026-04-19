@@ -195,6 +195,8 @@ const Navbar = ({ location, getLocation, openDropdown, setOpenDropdown }) => {
         openNav={openNav}
         setOpenNav={setOpenNav}
         profileFile={profileFile}
+        user={user}
+        isAuthenticated={isAuthenticated}
       />
     </div>
   );
