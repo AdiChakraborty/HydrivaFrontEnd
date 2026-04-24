@@ -1,6 +1,6 @@
 import React from "react";
-import banner from "../assets/banner.png";
-import Drinkingwater from "../assets/Drinkingwater.avif";
+import Water from "../assets/water.jpg";
+import Waterr from "../assets/water2.jpg";
 import { useNavigate } from "react-router-dom";
 
 const MidBanner = () => {
@@ -10,8 +10,8 @@ const MidBanner = () => {
       <div
         className=" relative max-w-7xl mx-auto md:rounded-2xl pt-28 bg-cover bg-center h-[550px] md:h-[600px]"
         style={{
-          backgroundImage: `url(${Drinkingwater})`,
-          backGroundPosition: "center",
+          backgroundImage: `url(${window.innerWidth >= 768 ? Water : Waterr})`,
+          backgroundPosition: "top",
           backgroundAttachment: "fixed",
         }}
       >
