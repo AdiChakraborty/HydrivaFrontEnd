@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../lib/axiosInstance";
+import { isMobile } from "react-device-detect";
 
 function Orders() {
   const navigation = useNavigate();
@@ -31,7 +32,26 @@ function Orders() {
         </h1>
       </div>
     );
-
+  const Status = ({ status }) => {
+    return (
+      <span>
+        Status:{" "}
+        <b
+          className={
+            status === "PAID"
+              ? "text-green-500"
+              : status === "FAILED"
+                ? "text-red-500"
+                : status === "PENDING"
+                  ? "text-yellow-500"
+                  : ""
+          }
+        >
+          {status}
+        </b>
+      </span>
+    );
+  };
   if (!orders.length)
     return (
       <div className="flex flex-col gap-3 justify-center items-center h-[600px]">
@@ -76,29 +96,32 @@ function Orders() {
           {orders.map((order) => (
             <div
               key={order.id}
-              className="border-black border mt-5 mb-5 p-4 rounded-md px-10"
+              className="border-black border mt-5 mb-5 p-2 md:p-4 rounded-md px-2 md:px-10"
             >
-              <div className="flex justify-between">
+              <div className="flex justify-between flex-col md:flex-row">
                 <div>
                   {/* Items */}
                   {order.items.map((item, index) => (
                     <div
                       key={index}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "10px",
-                      }}
+                      className="flex items-center mb-[10px] gap-2 md:gap-0 justify-evenly md:justify-start"
                     >
                       <img
                         src={item.product.images?.[0]?.url}
                         alt={item.product.title}
                         width="80"
                         height="80"
-                        style={{ objectFit: "cover", marginRight: "15px" }}
+                        style={{
+                          objectFit: "cover",
+                          marginRight: "15px",
+                        }}
                       />
 
-                      <div>
+                      <div
+                        style={{
+                          flexGrow: 1,
+                        }}
+                      >
                         <h4>{item.product.title}</h4>
                         <p>Quantity: {item.quantity}</p>
                         <p>Price: ₹{item.price}</p>
@@ -109,6 +132,11 @@ function Orders() {
                   {/* Shipping Address */}
                   {order.shippingAddress && (
                     <div
+                      className={
+                        isMobile
+                          ? "flex flex-col justify-center items-center"
+                          : ""
+                      }
                       style={{
                         marginTop: "10px",
                         background: "#f7f7f7",
@@ -127,32 +155,22 @@ function Orders() {
                 </div>
 
                 {/* Order Header */}
-                <div className="mb-3 flex flex-col items-center justify-center text-center">
-                  <strong>Order #{order.id}</strong>
+                <div className="mb-3 flex flex-row md:flex-col items-center justify-evenly md:justify-center text-center">
+                  {!isMobile && <strong>Order #{order.id}</strong>}
 
                   <span>
                     Date: {new Date(order.createdAt).toLocaleDateString()}
                   </span>
 
-                  <span>
-                    Status:{" "}
-                    <b
-                      className={
-                        order.status === "PAID"
-                          ? "text-green-500"
-                          : order.status === "FAILED"
-                            ? "text-red-500"
-                            : order.status === "PENDING"
-                              ? "text-yellow-500"
-                              : ""
-                      }
-                    >
-                      {order.status}
-                    </b>
-                  </span>
+                  {!isMobile && <Status status={order.status} />}
 
                   <span>Total: ₹{order.totalAmount}</span>
                 </div>
+                {isMobile && (
+                  <div className="flex flex-row items-center justify-center">
+                    <Status status={order.status} />
+                  </div>
+                )}
               </div>
             </div>
           ))}

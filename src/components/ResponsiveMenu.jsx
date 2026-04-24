@@ -45,7 +45,7 @@ function ResponsiveMenu({
                 }
                 alt=""
                 className="h-[50px] w-[50px] rounded-[50%] bg-contain cursor-pointer"
-                onClick={() => navigation("/profile")}
+                onClick={() => { navigation("/profile"); setOpenNav(false)} }
               />
             </div>
           ) : (

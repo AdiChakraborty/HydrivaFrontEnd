@@ -124,10 +124,10 @@ function ProfilePage({ location, getLocation }) {
           </div>
 
           <div>
-            <p className="text-gray-800 ml-6 md:text-2xl text-sm py-3 md:py-8">
+            <p className="text-gray-800 ml-2 md:ml-6 md:text-2xl text-xs py-3 md:py-8">
               We only support png or jpg (max 5 MB)
             </p>
-            <div className="flex md:gap-10 gap-5 ml-6">
+            <div className="flex md:gap-10 gap-2 md:gap-5 ml-2 md:ml-6">
               <input
                 type="file"
                 ref={fileInputRef}

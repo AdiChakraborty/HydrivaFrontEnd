@@ -88,6 +88,15 @@ export default function MyAddresses() {
     setEditingId(addr.id);
   };
 
+  const deleteAddr = async (id) => {
+     let response = await axiosInstance
+      .delete(`/addresses/${id}`)
+
+    if(response.data){
+       getAddress();
+    }
+  };
+
   const makeDefault = (id) => {
     axiosInstance
       .put(`/addresses/${id}/default`)
@@ -159,7 +168,6 @@ export default function MyAddresses() {
                     >
                       Edit
                     </button>
-
                     {!addr.isDefault && (
                       <button
                         onClick={() => makeDefault(addr.id)}
@@ -168,6 +176,13 @@ export default function MyAddresses() {
                         Make Default
                       </button>
                     )}
+
+                    <button
+                      onClick={() => deleteAddr(addr.id)}
+                      className="text-red-600 cursor-pointer"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               ))}
