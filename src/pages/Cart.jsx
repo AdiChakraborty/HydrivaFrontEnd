@@ -66,7 +66,7 @@ const Cart = ({ location, getLocation }) => {
     <div className="mt-10 max-w-6xl mx-auto mb-5">
       {cartItem.length > 0 ? (
         <div>
-          <h1 className=" font-bold text-2xl">My cart ({cartItem.length})</h1>
+          <h1 className=" font-bold text-2xl px-5">My cart ({cartItem.length})</h1>
           <div>
             <div className="mt-10">
               {cartItem.map((cartProduct, index) => {
@@ -232,7 +232,7 @@ const Cart = ({ location, getLocation }) => {
                     <span className=" text-gray-600 line-through">₹25</span>FREE
                   </p>
                 </div>
-                <div className="flex justify-between items-center">
+                {/* <div className="flex justify-between items-center">
                   <h1 className="flex gap-1 items-center text-gray-700">
                     <span>
                       <GiShoppingBag />
@@ -240,11 +240,11 @@ const Cart = ({ location, getLocation }) => {
                     Handling Charge
                   </h1>
                   <p className="text-red-500 font-semibold">₹5</p>
-                </div>
+                </div> */}
                 <hr className="text-gray-200 mt-2" />
                 <div className="flex justify-between items-center">
                   <h1 className=" font-semibold text-lg">Grand Total</h1>
-                  <p className=" font-semibold text-lg">₹{totalPrice + 5}</p>
+                  <p className=" font-semibold text-lg">₹{totalPrice}</p>
                 </div>
 
                 <button

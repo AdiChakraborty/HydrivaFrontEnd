@@ -126,18 +126,18 @@ const OrderSummary = ({ location, getLocation }) => {
                   </span>
                 </div>
 
-                <div className="flex justify-between items-center text-gray-700">
+                {/* <div className="flex justify-between items-center text-gray-700">
                   <span className="flex items-center gap-1">
                     <GiShoppingBag /> Handling Charge
                   </span>
                   <span className="text-red-500 font-semibold">₹5</span>
-                </div>
+                </div> */}
 
                 <hr />
 
                 <div className="flex justify-between items-center font-semibold text-lg">
                   <span>Grand Total</span>
-                  <span>₹{order?.totalAmount + 5}</span>
+                  <span>₹{order?.totalAmount}</span>
                 </div>
 
                 <button

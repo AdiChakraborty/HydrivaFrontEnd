@@ -139,7 +139,7 @@ function ProfilePage({ location, getLocation }) {
                 onClick={handleClick}
                 className="bg-red-500 text-white md:px-5 px-3 md:py-2 py-1 md:text-lg text-xs rounded-md  cursor-pointer"
               >
-                Upload your Image
+                Upload Image
               </button>
 
               <button
