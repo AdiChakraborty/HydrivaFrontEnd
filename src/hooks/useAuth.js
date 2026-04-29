@@ -26,7 +26,7 @@ export function useAuth() {
       setLoading(false);
       return;
     }
-    console.log("Current session::", data)
+    console.log("Current session::", data);
     setSession(data?.session);
     setUser(data?.session?.user);
     setLoading(false);
@@ -78,6 +78,20 @@ export function useAuth() {
     return true;
   }, []);
 
+  //forgot password
+  const sendPasswordResetLink = useCallback(async (email, redirectTo) => {
+    setLoading(true);
+    setError(null);
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email);
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return false;
+    }
+    setLoading(false);
+    return true;
+  }, []);
+
   // 🚪 Logout
   const signOut = useCallback(async () => {
     setLoading(true);
@@ -85,9 +99,9 @@ export function useAuth() {
     setUser(null);
     setSession(null);
     setLoading(false);
-    localStorage.clear()
-    sessionStorage.clear()
-    window.location.href = '/'
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "/";
   }, []);
 
   // 🔐 Access token (for backend API calls)

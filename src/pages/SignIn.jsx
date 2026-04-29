@@ -1,6 +1,6 @@
 // import hydrivalogo from '../assets/hydrivalogo.png'
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../Context/AuthContext";
 
@@ -26,9 +26,7 @@ function SignIn() {
         <div className="md:min-h-screen flex flex-col items-center justify-center py-6 px-4">
           <div className="max-w-[480px] w-full">
             <div className="text-lg text-center mb-3">
-              <span
-                className="text-red-600 hover:underline font-semibold"
-              >
+              <span className="text-red-600 hover:underline font-semibold">
                 {error || ""}
               </span>
             </div>
@@ -113,12 +111,12 @@ function SignIn() {
                     </label>
                   </div>
                   <div className="text-sm">
-                    <a
-                      href="jajvascript:void(0);"
+                    <Link
+                      to="/forgot-password"
                       className="text-red-600 hover:underline font-semibold"
                     >
                       Forgot your password?
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
