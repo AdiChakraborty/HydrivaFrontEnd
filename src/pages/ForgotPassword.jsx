@@ -11,7 +11,10 @@ function ForgotPassword() {
   const { sendPasswordResetLink, error } = useAuth();
 
   async function handleForgotPassword() {
-    const isSuccess = await sendPasswordResetLink(email);
+    const isSuccess = await sendPasswordResetLink(
+      email,
+      import.meta.env.VITE_SITE_URL + "/reset-password",
+    );
     console.log(isSuccess);
     if (isSuccess) {
       alert("Password reset link sent to your email!");

@@ -20,6 +20,7 @@ import { AuthProvider, useAuth } from "./Context/AuthContext";
 import ProfilePage from "./pages/ProfilePage";
 import Orders from "./pages/Orders";
 import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const AppContent = () => {
   const [location, setLocation] = useState();
@@ -104,6 +105,14 @@ const AppContent = () => {
           element={
             <RequireGuest>
               <ForgotPassword />
+            </RequireGuest>
+          }
+        ></Route>
+        <Route
+          path="/reset-password"
+          element={
+            <RequireGuest>
+              <ResetPassword />
             </RequireGuest>
           }
         ></Route>

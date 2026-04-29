@@ -7,15 +7,28 @@ function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordcnfr, setPasswordCnrf] = useState("");
+  const [istermsAccepted, setIsTermsAccepted] = useState(false);
 
-  const { signUp,error } = useAuth();
+  const { signUp, error } = useAuth();
 
   async function singUp() {
+    if (!email || !password || !passwordcnfr) {
+      alert("Please fill all the fields");
+      return;
+    }
     if (password !== passwordcnfr) {
       alert("Password and confirm password do not match");
       return;
     }
-    const isSignUpSuccess = await signUp(email, password);
+    if (!istermsAccepted) {
+      alert("Please accept the terms and conditions");
+      return;
+    }
+    const isSignUpSuccess = await signUp(
+      email,
+      password,
+      import.meta.env.VITE_SITE_URL + "/sign-in",
+    );
     console.log(isSignUpSuccess);
     if (isSignUpSuccess) {
       alert(
@@ -31,13 +44,11 @@ function RegisterForm() {
     <div className=" mt-3">
       <div className="flex flex-col justify-center sm:h-screen p-4">
         <div className="max-w-md w-full mx-auto border border-gray-300 rounded-2xl p-8">
-         <div className="text-lg text-center mb-3">
-              <span
-                className="text-red-600 hover:underline font-semibold"
-              >
-                {error || ""}
-              </span>
-            </div>
+          <div className="text-lg text-center mb-3">
+            <span className="text-red-600 hover:underline font-semibold">
+              {error || ""}
+            </span>
+          </div>
           <div className="text-center mb-12">
             <h1 className="text-slate-900 text-center text-3xl font-semibold">
               Sign up
@@ -89,6 +100,7 @@ function RegisterForm() {
                   name="remember-me"
                   type="checkbox"
                   className="h-4 w-4 shrink-0 text-red-600 focus:ring-blue-500 border-gray-300 rounded"
+                  onChange={(e) => setIsTermsAccepted(e.target.checked)}
                 />
                 <label
                   for="remember-me"

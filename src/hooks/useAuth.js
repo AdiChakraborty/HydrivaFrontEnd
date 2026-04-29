@@ -82,7 +82,23 @@ export function useAuth() {
   const sendPasswordResetLink = useCallback(async (email, redirectTo) => {
     setLoading(true);
     setError(null);
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email);
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: redirectTo,
+    });
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return false;
+    }
+    setLoading(false);
+    return true;
+  }, []);
+
+  // reset password (after user clicks the link in email)
+  const resetPassword = useCallback(async (password) => {
+    setLoading(true);
+    setError(null);
+    const { data, error } = await supabase.auth.updateUser({ password });
     if (error) {
       setError(error.message);
       setLoading(false);
@@ -132,5 +148,6 @@ export function useAuth() {
     signUp,
     signIn,
     signOut,
+    sendPasswordResetLink,
   };
 }
