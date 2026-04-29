@@ -6,8 +6,7 @@ import { DataProvider } from "./Context/DataContext.jsx";
 import { CartProvider } from "./Context/CartContext.jsx";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
-import {isMobile} from 'react-device-detect';
-
+import { isMobile } from "./lib/react-device-detect.js";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
