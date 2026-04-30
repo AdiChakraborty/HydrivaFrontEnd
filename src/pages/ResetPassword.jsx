@@ -10,7 +10,7 @@ function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { sendPasswordResetLink, error } = useAuth();
+  const { resetPassword, error } = useAuth();
 
   async function handleResetPassword() {
     if (!password || !confirmPassword) {
@@ -22,14 +22,11 @@ function ResetPassword() {
       return;
     }
 
-    const isSuccess = await sendPasswordResetLink(
-      email,
-      import.meta.env.VITE_SITE_URL + "/reset-password",
-    );
+    const isSuccess = await resetPassword(password);
     console.log(isSuccess);
     if (isSuccess) {
-      alert("Password reset link sent to your email!");
-      navigation("/sign-in");
+      alert("Password changed successfully");
+      navigation("/");
     }
   }
 

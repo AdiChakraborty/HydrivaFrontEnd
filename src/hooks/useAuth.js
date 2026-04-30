@@ -33,9 +33,18 @@ export function useAuth() {
   }, []);
 
   //handle auth state changes
-  const handleAuthChange = useCallback((_event, session) => {
-    setSession(session);
-    setUser(session?.user ?? null);
+  const handleAuthChange = useCallback((event, session) => {
+    console.log("Auth event::", event, session);
+    if (event === "PASSWORD_RECOVERY") {
+      const origin = window.location.origin;
+      const resetUrl = `${origin}/reset-password`;
+      if (window.location.href !== resetUrl) {
+        window.location.href = resetUrl;
+      }
+    } else {
+      setSession(session);
+      setUser(session?.user ?? null);
+    }
   }, []);
 
   // ✍️ Sign up
@@ -108,6 +117,49 @@ export function useAuth() {
     return true;
   }, []);
 
+  //sign in with mobile and otp
+  const signInWithOtp = useCallback(async (countryCode, phone) => {
+    setLoading(true);
+    setError(null);
+
+    const { data, error } = await supabase.auth.signInWithOtp({
+      phone: countryCode + phone,
+    });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return false;
+    }
+
+    setSession(data?.session);
+    setUser(data?.session?.user);
+    setLoading(false);
+    return true;
+  }, []);
+
+  //verify mobile otp
+  const verifyOtp = useCallback(async (countryCode, phone, token) => {
+    setLoading(true);
+    setError(null);
+
+    const { data, error } = await supabase.auth.verifyOtp({
+      phone: countryCode + phone,
+      token,
+      type: "sms",
+    });
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return false;
+    }
+    console.log("OTP verification successful::", data);
+    setSession(data?.session);
+    setUser(data?.session?.user);
+    setLoading(false);
+    return true;
+  }, []);
+
   // 🚪 Logout
   const signOut = useCallback(async () => {
     setLoading(true);
@@ -149,5 +201,8 @@ export function useAuth() {
     signIn,
     signOut,
     sendPasswordResetLink,
+    resetPassword,
+    signInWithOtp,
+    verifyOtp,
   };
 }

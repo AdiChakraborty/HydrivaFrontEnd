@@ -16,6 +16,12 @@ function RegisterForm() {
       alert("Please fill all the fields");
       return;
     }
+    //validate email format
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
     if (password !== passwordcnfr) {
       alert("Password and confirm password do not match");
       return;
@@ -27,7 +33,7 @@ function RegisterForm() {
     const isSignUpSuccess = await signUp(
       email,
       password,
-      import.meta.env.VITE_SITE_URL + "/sign-in",
+      import.meta.env.VITE_SITE_URL,
     );
     console.log(isSignUpSuccess);
     if (isSignUpSuccess) {

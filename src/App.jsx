@@ -105,7 +105,7 @@ const AppContent = () => {
           path="/sign-up-mobile"
           element={
             <RequireGuest>
-              <SignUpMobile  />
+              <SignUpMobile />
             </RequireGuest>
           }
         ></Route>
@@ -117,15 +117,15 @@ const AppContent = () => {
             </RequireGuest>
           }
         ></Route>
+        <Route path="/reset-password" element={<ResetPassword />}></Route>
         <Route
-          path="/reset-password"
+          path="/summary"
           element={
-            <RequireGuest>
-              <ResetPassword />
-            </RequireGuest>
+            <RequireAuth>
+              <OrderSummary />
+            </RequireAuth>
           }
         ></Route>
-        <Route path="/summary" element={<OrderSummary />}></Route>
         <Route
           path="/sign-up"
           element={

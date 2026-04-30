@@ -19,10 +19,18 @@ function ResponsiveMenu({
   });
 
   const navigateToSignIn = () => {
-     navigation("/sign-in")
-     setOpenNav(false)
+    navigation("/sign-in");
+    setOpenNav(false);
+  };
 
-  }
+  //function to take phone and mask it like +91 12345 67890 => +91 ***** 7890
+  const maskPhone = (phone) => {
+    if (!phone) return "";
+    const countryCode = phone.slice(0, 3);
+    const last4Digits = phone.slice(-4);
+    return `${countryCode} ***** ${last4Digits}`;
+  };
+
   return (
     <div
       ref={responsiveMenuRef}
@@ -45,7 +53,10 @@ function ResponsiveMenu({
                 }
                 alt=""
                 className="h-[50px] w-[50px] rounded-[50%] bg-contain cursor-pointer"
-                onClick={() => { navigation("/profile"); setOpenNav(false)} }
+                onClick={() => {
+                  navigation("/profile");
+                  setOpenNav(false);
+                }}
               />
             </div>
           ) : (
@@ -55,7 +66,13 @@ function ResponsiveMenu({
             {isAuthenticated ? (
               <>
                 <h1>Hello</h1>
-                <h1 className="text-sm text-slate-500">{user?.email?.split("@")?.[0]}</h1>
+                <h1 className="text-sm text-slate-500">
+                  {user?.email
+                    ? user?.email?.split("@")?.[0]
+                    : user?.phone
+                      ? maskPhone(user?.phone)
+                      : ""}
+                </h1>
               </>
             ) : (
               <>

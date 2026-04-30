@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../Context/AuthContext";
 
@@ -13,6 +13,22 @@ function SignUpMobile() {
   const [error, setError] = useState("");
   const otpRefs = useRef([]);
   const timerRef = useRef(null);
+
+  const location = useLocation();
+
+  //if query string has otpstep=true then show otp step directly
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("otpstep") === "true") {
+      setStep("otp");
+    }
+    if (params.get("phone")) {
+      setPhone(params.get("phone"));
+    }
+    if (params.get("countryCode")) {
+      setCountryCode(params.get("countryCode"));
+    }
+  }, [location.search]);
 
   const { signInWithOtp, verifyOtp } = useAuth();
 
@@ -37,11 +53,20 @@ function SignUpMobile() {
       setError("Please enter a valid mobile number");
       return;
     }
+    //VALIDATE PHONE NUMBER FORMAT
+    if (!/^\d{10}$/.test(phone)) {
+      setError("Please enter a valid 10-digit mobile number");
+      return;
+    }
     setError("");
-    // await signInWithOtp(countryCode + phone);
-    setStep("otp");
-    startTimer();
-    setTimeout(() => otpRefs.current[0]?.focus(), 100);
+    const isSucess = await signInWithOtp(countryCode, phone);
+    if (isSucess) {
+      navigation(
+        "?otpstep=true&countryCode=" + countryCode + "&phone=" + phone,
+      );
+    } else {
+      setError("Failed to send OTP. Please try again.");
+    }
   }
 
   async function handleVerifyOtp() {
@@ -51,8 +76,8 @@ function SignUpMobile() {
       return;
     }
     setError("");
-    // const success = await verifyOtp(countryCode + phone, fullOtp);
-    // if (success) navigation("/");
+    const success = await verifyOtp(countryCode, phone, fullOtp);
+    if (success) navigation("/");
     alert("OTP Verified! Login successful.");
   }
 
@@ -84,7 +109,6 @@ function SignUpMobile() {
     setOtp(["", "", "", "", "", ""]);
     setStep("phone");
   }
-
   return (
     <>
       <div className="bg-gray-50">
@@ -123,19 +147,22 @@ function SignUpMobile() {
                         <option value="+65">+65</option>
                       </select>
                       <input
-                        type="tel"
+                        type="text"
                         maxLength={10}
                         required
                         className="w-full text-slate-900 text-sm border border-slate-300 px-4 py-3 pr-8 rounded-md outline-blue-600"
                         style={{ paddingLeft: "80px" }}
                         placeholder="Enter your mobile number"
                         value={phone}
-                        onChange={(e) =>
-                          setPhone(e.target.value.replace(/[^0-9]/g, ""))
-                        }
+                        onChange={(e) => setPhone(e.target.value)}
                       />
                       {/* phone icon */}
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" className="w-4 h-4 absolute right-4" viewBox="0 0 24 24">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="#bbb"
+                        className="w-4 h-4 absolute right-4"
+                        viewBox="0 0 24 24"
+                      >
                         <path d="M17.707 12.293a1 1 0 0 0-1.414 0l-1.594 1.594c-.739-.22-2.118-.72-2.992-1.594s-1.374-2.253-1.594-2.992l1.594-1.594a1 1 0 0 0 0-1.414l-3-3a1 1 0 0 0-1.414 0L5.981 5.015c-.552.55-.724 1.342-.472 2.521.818 3.976 4.96 8.118 8.936 8.937.52.107.985.16 1.398.16 1.13 0 1.924-.4 2.462-.938l1.707-1.707a1 1 0 0 0 0-1.414z" />
                       </svg>
                     </div>
@@ -148,7 +175,10 @@ function SignUpMobile() {
                       type="checkbox"
                       className="h-4 w-4 shrink-0 text-red-600 focus:ring-blue-500 border-slate-300 rounded"
                     />
-                    <label htmlFor="remember-me" className="ml-3 block text-sm text-slate-900">
+                    <label
+                      htmlFor="remember-me"
+                      className="ml-3 block text-sm text-slate-900"
+                    >
                       Remember me
                     </label>
                   </div>
@@ -165,13 +195,19 @@ function SignUpMobile() {
 
                   <p className="text-slate-900 text-sm mt-6 text-center">
                     Don't have an account?{" "}
-                    <span onClick={() => navigation("/sign-up")} className="text-red-600 hover:underline ml-1 font-semibold cursor-pointer">
+                    <span
+                      onClick={() => navigation("/sign-up")}
+                      className="text-red-600 hover:underline ml-1 font-semibold cursor-pointer"
+                    >
                       Register here
                     </span>
                   </p>
                   <p className="text-slate-900 text-sm mt-6 text-center">
                     Sign in with Email...{" "}
-                    <span onClick={() => navigation("/sign-in")} className="text-red-600 hover:underline ml-1 font-semibold cursor-pointer">
+                    <span
+                      onClick={() => navigation("/sign-in")}
+                      className="text-red-600 hover:underline ml-1 font-semibold cursor-pointer"
+                    >
                       Click Here
                     </span>
                   </p>
@@ -184,7 +220,13 @@ function SignUpMobile() {
                   <div className="text-center mb-2">
                     <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-3">
                       {/* phone icon in red */}
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#dc2626" viewBox="0 0 24 24">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        fill="#dc2626"
+                        viewBox="0 0 24 24"
+                      >
                         <path d="M17.707 12.293a1 1 0 0 0-1.414 0l-1.594 1.594c-.739-.22-2.118-.72-2.992-1.594s-1.374-2.253-1.594-2.992l1.594-1.594a1 1 0 0 0 0-1.414l-3-3a1 1 0 0 0-1.414 0L5.981 5.015c-.552.55-.724 1.342-.472 2.521.818 3.976 4.96 8.118 8.936 8.937.52.107.985.16 1.398.16 1.13 0 1.924-.4 2.462-.938l1.707-1.707a1 1 0 0 0 0-1.414z" />
                       </svg>
                     </div>
@@ -221,10 +263,15 @@ function SignUpMobile() {
                     {!canResend ? (
                       <span className="text-slate-500">
                         Resend OTP in{" "}
-                        <span className="font-semibold text-red-600">{timer}s</span>
+                        <span className="font-semibold text-red-600">
+                          {timer}s
+                        </span>
                       </span>
                     ) : (
-                      <span onClick={handleResend} className="text-red-600 font-semibold cursor-pointer hover:underline">
+                      <span
+                        onClick={handleResend}
+                        className="text-red-600 font-semibold cursor-pointer hover:underline"
+                      >
                         Resend OTP
                       </span>
                     )}
