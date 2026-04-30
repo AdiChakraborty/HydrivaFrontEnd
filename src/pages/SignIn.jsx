@@ -32,12 +32,12 @@ function SignIn() {
             </div>
             <div className="p-6 sm:p-8 rounded-2xl bg-white border border-gray-200 shadow-sm">
               <h1 className="text-slate-900 text-center text-3xl font-semibold">
-                Sign in
+                Sign in with Email 
               </h1>
               <form className="mt-12 space-y-6">
                 <div>
                   <label className="text-slate-900 text-sm font-medium mb-2 block">
-                    User Email
+                    User Email  
                   </label>
                   <div className="relative flex items-center">
                     <input
@@ -129,13 +129,22 @@ function SignIn() {
                     Sign in
                   </button>
                 </div>
-                <p className="text-slate-900 text-sm !mt-6 text-center">
+                <p className="text-slate-900 text-sm mt-6 text-center">
                   Don't have an account?{" "}
                   <span
                     onClick={() => navigation("/sign-up")}
                     className="text-red-600 hover:underline ml-1 whitespace-nowrap font-semibold cursor-pointer"
                   >
                     Register here
+                  </span>
+                </p>
+                <p className="text-slate-900 text-sm mt-6 text-center">
+                  Sing up with Mobile...{" "}
+                  <span
+                    onClick={() => navigation("/sign-up-mobile")}
+                    className="text-red-600 hover:underline ml-1 whitespace-nowrap font-semibold cursor-pointer"
+                  >
+                   Click Here
                   </span>
                 </p>
               </form>

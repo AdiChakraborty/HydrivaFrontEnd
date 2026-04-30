@@ -21,6 +21,7 @@ import ProfilePage from "./pages/ProfilePage";
 import Orders from "./pages/Orders";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import SignUpMobile from "./pages/SignUpMobile";
 
 const AppContent = () => {
   const [location, setLocation] = useState();
@@ -97,6 +98,14 @@ const AppContent = () => {
           element={
             <RequireGuest>
               <SignIn />
+            </RequireGuest>
+          }
+        ></Route>
+        <Route
+          path="/sign-up-mobile"
+          element={
+            <RequireGuest>
+              <SignUpMobile  />
             </RequireGuest>
           }
         ></Route>
