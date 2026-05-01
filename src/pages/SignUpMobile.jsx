@@ -21,6 +21,7 @@ function SignUpMobile() {
     const params = new URLSearchParams(location.search);
     if (params.get("otpstep") === "true") {
       setStep("otp");
+      startTimer();
     }
     if (params.get("phone")) {
       setPhone(params.get("phone"));

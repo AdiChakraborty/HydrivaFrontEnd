@@ -6,7 +6,6 @@ import Image from "./Image";
 import CartButton from "./CartButton";
 
 const ProductCard = ({ product }) => {
-
   const navigate = useNavigate();
 
   const imgSrc =
@@ -14,13 +13,8 @@ const ProductCard = ({ product }) => {
       ? product.images?.[0]?.url
       : "";
 
-  
-
   return (
-    <div
-      className=" border relative border-gray-100 rounded-2xl cursor-pointer aspect-square hover:scale-105 
-    hover:shawod-2xl transition-all p-2 h-max"
-    >
+    <div className=" border relative border-gray-100 rounded-2xl cursor-pointer hover:scale-105 hover:shadow-2xl transition-all p-2 h-max">
       <Image
         src={imgSrc}
         alt={product.title}

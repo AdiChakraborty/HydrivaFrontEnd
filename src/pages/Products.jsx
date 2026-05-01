@@ -23,31 +23,30 @@ const Products = () => {
   }, []);
 
   const handleCategoryChange = (e) => {
-    // console.log(e.target.value);
     if (category === e.target.value) {
       setCategory("All");
       return;
     }
     setCategory(e.target.value);
     setPage(1);
-    setOpenFilter(false)
+    setOpenFilter(false);
   };
 
   const pageHandler = (selectedPage) => {
     setPage(selectedPage);
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
   };
 
-  const filteredData = data?.filter(
-    (item) =>
-      item.title.toLowerCase().includes(search.toLowerCase()) &&
-      (category.toLowerCase() === "all" ||
-        item.category.name.toLowerCase() === category.toLowerCase()) &&
-      item.price >= pricerange[0] &&
-      item.price <= pricerange[1]
-  );
+  // const filteredData = data?.filter(
+  //   (item) =>
+  //     item.title.toLowerCase().includes(search.toLowerCase()) &&
+  //     (category.toLowerCase() === "all" ||
+  //       item.category.name.toLowerCase() === category.toLowerCase()) &&
+  //     item.price >= pricerange[0] &&
+  //     item.price <= pricerange[1]
+  // );
 
-  const dynamicPage = Math.ceil(filteredData?.length / 8);
+  // const dynamicPage = Math.ceil(filteredData?.length / 8);
 
   return (
     <div>
@@ -79,20 +78,20 @@ const Products = () => {
                 setCategory={setCategory}
                 handleCategoryChange={handleCategoryChange}
               /> */}
-              {filteredData?.length > 0 ? (
+              {data?.length > 0 ? (
                 <div className=" flex flex-col justify-center items-center">
                   <div className=" grid grid-cols-2 md:grid-cols-4 md:gap-7 gap-2 mt-10 ">
-                    {filteredData
+                    {data
                       ?.slice(page * 8 - 8, page * 8)
                       .map((product, index) => {
                         return <ProductCard key={index} product={product} />;
                       })}
                   </div>
-                  <Pagination
+                  {/* <Pagination
                     pageHandler={pageHandler}
                     page={page}
                     dynamicPage={dynamicPage}
-                  />
+                  /> */}
                 </div>
               ) : (
                 <div className="flex justify-center items-center md:h-[600px] md:w-[900px] mt-10">

@@ -84,8 +84,11 @@ const SingleProducts = () => {
   useEffect(() => {
     getSingleProduct();
   }, []);
-  const OriginalPrice = Math.round(
-    SingleProduct.price + (SingleProduct.price * SingleProduct.discount) / 100,
+
+  const staticPrice = 1099;
+  const productPrice = SingleProduct.price;
+  const calculatedDiscount = Math.round(
+    ((staticPrice - productPrice) / staticPrice) * 100,
   );
 
   return (
@@ -113,10 +116,10 @@ const SingleProducts = () => {
               <p className="text-xl text-red-500 font-bold">
                 ₹{SingleProduct.price}{" "}
                 <span className="line-through text-gray-700">
-                  ₹{OriginalPrice}
+                  ₹{staticPrice}
                 </span>{" "}
                 <span className="bg-red-500 text-white px-4 py-2 rounded-full">
-                  {SingleProduct.discount}% discount
+                  {calculatedDiscount}% discount
                 </span>
               </p>
               <p className="text-gray-600">{SingleProduct.description}</p>
@@ -137,7 +140,7 @@ const SingleProducts = () => {
                 />
               </div>
               <div className="flex gap-3">
-                <CartButton product={SingleProduct} cartQuantity={quantity}/>
+                <CartButton product={SingleProduct} cartQuantity={quantity} />
                 <button
                   onClick={() => buyNow(SingleProduct)}
                   disabled={buyNowLoading}
