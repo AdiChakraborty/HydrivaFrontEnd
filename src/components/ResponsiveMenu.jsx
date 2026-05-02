@@ -60,7 +60,10 @@ function ResponsiveMenu({
               />
             </div>
           ) : (
-            <FaUserCircle size={50} />
+            <FaUserCircle size={50}   onClick={() => {
+                  navigation("/profile");
+                  setOpenNav(false);
+                }}/>
           )}
           <div>
             {isAuthenticated ? (

@@ -18,7 +18,7 @@ const skeletonStyle = `
   .skel {
     background: linear-gradient(90deg, #1a1a2e 25%, #2a2a4a 50%, #1a1a2e 75%);
     background-size: 700px 100%;
-    animation: shimmer 1.4s infinite linear;
+    animation: shimmer 3s infinite linear;
     border-radius: 8px;
   }
 `;
