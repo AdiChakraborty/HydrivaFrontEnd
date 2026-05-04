@@ -42,7 +42,7 @@ function SignIn() {
             </div>
             <div className="p-6 sm:p-8 rounded-2xl bg-white border border-gray-200 shadow-sm">
               <h1 className="text-slate-900 text-center text-3xl font-semibold">
-                Sign in with Email
+                Sign in
               </h1>
               <form className="mt-12 space-y-6">
                 <div>
@@ -149,7 +149,7 @@ function SignIn() {
                   </span>
                 </p>
                 <p className="text-slate-900 text-sm mt-6 text-center">
-                  Sing up with Mobile...{" "}
+                  Wanna sign in with mobile?{" "}
                   <span
                     onClick={() => navigation("/sign-up-mobile")}
                     className="text-red-600 hover:underline ml-1 whitespace-nowrap font-semibold cursor-pointer"

@@ -10,6 +10,7 @@ function ResponsiveMenu({
   setOpenNav,
   profileFile,
   isAuthenticated,
+  signOut,
   user,
 }) {
   const navigation = useNavigate();
@@ -40,7 +41,7 @@ function ResponsiveMenu({
      flex-col justify-between bg-white px-8 pb-6 pt-16 text-black md:hidden rounded-r-xl shadow-md transition-all`}
     >
       <div>
-        <div className=" flex items-center justify-start gap-3">
+        <div className="flex items-center justify-start gap-3">
           {isAuthenticated && profileFile ? (
             <div>
               <img
@@ -60,10 +61,13 @@ function ResponsiveMenu({
               />
             </div>
           ) : (
-            <FaUserCircle size={50}   onClick={() => {
-                  navigation("/profile");
-                  setOpenNav(false);
-                }}/>
+            <FaUserCircle
+              size={50}
+              onClick={() => {
+                navigation("/profile");
+                setOpenNav(false);
+              }}
+            />
           )}
           <div>
             {isAuthenticated ? (
@@ -122,6 +126,14 @@ function ResponsiveMenu({
           </ul>
         </nav>
       </div>
+      {isAuthenticated && (
+        <button
+          className="text-center px-3 py-2 bg-red-500 text-white rounded-md cursor-pointer"
+          onClick={signOut}
+        >
+          Sign Out
+        </button>
+      )}
     </div>
   );
 }

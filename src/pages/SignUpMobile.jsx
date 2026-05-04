@@ -123,7 +123,7 @@ function SignUpMobile() {
 
             <div className="p-6 sm:p-8 rounded-2xl bg-white border border-gray-200 shadow-sm">
               <h1 className="text-slate-900 text-center text-3xl font-semibold">
-                Sign in with Mobile
+                Sign in
               </h1>
 
               {/* Step 1 — Phone Number */}
@@ -204,7 +204,7 @@ function SignUpMobile() {
                     </span>
                   </p>
                   <p className="text-slate-900 text-sm mt-6 text-center">
-                    Sign in with Email...{" "}
+                    Wanna sign in with email?{" "}
                     <span
                       onClick={() => navigation("/sign-in")}
                       className="text-red-600 hover:underline ml-1 font-semibold cursor-pointer"

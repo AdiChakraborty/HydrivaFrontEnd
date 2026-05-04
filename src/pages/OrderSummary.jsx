@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import emptyCart from "../assets/empty-cart.png";
 import Image from "../components/Image";
 import { startPayment } from "../services/paymentService";
+import axiosInstance from "../lib/axiosInstance";
 
 const OrderSummary = ({ location, getLocation }) => {
   const { updateQuantity, deleteItem, fetchCartItems } = useCart();
@@ -16,6 +17,14 @@ const OrderSummary = ({ location, getLocation }) => {
   const navigate = useNavigate();
 
   const { order, items: cartItem } = state || { items: [], order: {} };
+
+  const deleteOrder = async (orderId) => {
+    try {
+      await axiosInstance.delete(`/orders/${orderId}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const createOrder = async () => {
     setPaymentInProgress(true);
@@ -26,11 +35,14 @@ const OrderSummary = ({ location, getLocation }) => {
         setPaymentInProgress(false);
       },
       addressId: order.address.id,
-      onFailure: () => setPaymentInProgress(false),
+      onFailure: (orderId) => {
+        setPaymentInProgress(false);
+        deleteOrder(orderId);
+      },
     });
   };
 
-  const addr = order.address
+  const addr = order.address;
 
   return (
     <div className="mt-10 max-w-6xl mx-auto mb-10 px-4">
@@ -83,21 +95,18 @@ const OrderSummary = ({ location, getLocation }) => {
                   <h1 className="text-gray-800 font-bold text-lg">
                     Delivering to
                   </h1>
-   
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <p className="font-semibold">{addr.fullName}</p>
-                        {addr.isDefault && <p>Default</p>}
-                      </div>
-                      <p className="text-sm text-gray-600">
-                        {addr.addressLine1}, {addr.addressLine2}, {addr.city},{" "}
-                        {addr.state}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Phone: {addr.phone}
-                      </p>
+
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-semibold">{addr.fullName}</p>
+                      {addr.isDefault && <p>Default</p>}
                     </div>
-                  
+                    <p className="text-sm text-gray-600">
+                      {addr.addressLine1}, {addr.addressLine2}, {addr.city},{" "}
+                      {addr.state}
+                    </p>
+                    <p className="text-sm text-gray-500">Phone: {addr.phone}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -148,7 +157,7 @@ const OrderSummary = ({ location, getLocation }) => {
                   }
                   onClick={createOrder}
                 >
-                  {paymentInProgress ? "Processing..." : "Proceed to Checkout"}
+                  {paymentInProgress ? "Processing..." : "Confirm your order"}
                 </button>
               </div>
             </div>

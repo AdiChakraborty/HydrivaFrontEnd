@@ -25,8 +25,8 @@ const Navbar = ({ location, getLocation, openDropdown, setOpenDropdown }) => {
   const navigation = useNavigate();
 
   useEffect(() => {
-    if(!isAuthenticated){
-      return 
+    if (!isAuthenticated) {
+      return;
     }
     axiosInstance
       .get("/profile")
@@ -197,6 +197,7 @@ const Navbar = ({ location, getLocation, openDropdown, setOpenDropdown }) => {
         profileFile={profileFile}
         user={user}
         isAuthenticated={isAuthenticated}
+        signOut={signOut}
       />
     </div>
   );

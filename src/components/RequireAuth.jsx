@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 import Lottie from "lottie-react";
 import noDataAni from "../assets/noDataAni.json";
+import Video from "../assets/loding.webm";
 
 export const RequireAuth = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();

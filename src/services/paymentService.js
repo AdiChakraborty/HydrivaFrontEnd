@@ -58,11 +58,11 @@ export const startPayment = async ({ addressId, onSuccess, onFailure }) => {
     paymentObject.open();
     paymentObject.on("payment.failed", function (response) {
       alert("Payment failed. Please try again.");
-      onFailure();
+      onFailure(orderId);
     });
   } catch (error) {
     console.error(error);
     alert("Payment failed. Please try again.");
-    onFailure();
+    onFailure(orderId);
   }
 };
