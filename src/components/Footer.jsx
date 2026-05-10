@@ -14,43 +14,46 @@ const Footer = () => {
               <h1 className='text-red-500 text-2xl font-bold'>Hydriva</h1>
             </Link>
             <p className='mt-2 text-sm'>Stay hydrated wherever life takes you.</p>
-            <p className='mt-2 text-sm'>123 Jadavpur,Kolkata 700036</p>
+            <p className='mt-2 text-sm'> 45/1 Titas Apartment Santoshpur Jadavpur,Kolkata 700075</p>
             <p className='text-sm'>Email: hydrivaofficial@gmail.com</p>
             <p className='text-sm'>Phone: +91 6289168373</p>
         </div>
         {/* customer service link */}
         <div className='mb-6 md:mb-0'>
             <h3 className='text-xl font-semibold'>Customer Service</h3>
-            <ul className='mt-2 text-sm space-y-2'>
+            <ul className='mt-2 text-sm space-y-2 cursor-pointer'>
                 <li>Contact Us</li>
                 <li>Shipping & Returns</li>
                 <li>FAQs</li>
-                <li>Order Tracking</li>
+                {/* <li>Order Tracking</li> */}
                 <li>Size Guide</li>
             </ul>
         </div>
         {/* social media links */}
         <div className='mb-6 md:mb-0'>
-            <h3 className='text-xl font-semibold'>Follow Us</h3>
+            <h3 className='text-xl font-semibold '>Follow Us</h3>
             <div className='flex space-x-4 mt-2 ml-4'>
                 <FaFacebook/>
-                <a target='_blank' href="https://www.instagram.com/hydriva_offical?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><FaInstagram/></a>
+                <a target='_blank' className='cursor-pointer'  href="https://www.instagram.com/hydriva_offical?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><FaInstagram/></a>
                 {/* <FaTwitterSquare/> */}
                 {/* <FaPinterest/> */}
             </div>
         </div>
         {/* newsletter subscription */}
         <div>
-            <h3 className='text-xl font-semibold'>Stay in the Loop</h3>
-            <p className='mt-2 text-sm'>Subscribe to get special offers, free giveaways, and more</p>
-            <form action="" className='mt-4 flex'>
+            {/* <h3 className='text-xl font-semibold'>Stay in the Loop</h3> */}
+            <h3 className='text-xl font-semibold cursor-pointer'>Why Choose Us</h3>
+            <p className='mt-2 text-sm cursor-pointer'>Fast Support</p>
+            <p className='mt-2 text-sm cursor-pointer'>Affordable Pricing</p>
+            {/* <p className='mt-2 text-sm cursor-pointer'>Trusted by 500+ Clients</p> */}
+            {/* <form action="" className='mt-4 flex'>
                 <input 
                 type="email" 
                 placeholder='Your email address'
                 className='w-full p-2 rounded-l-md  text-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500'
                 />
                 <button type='submit' className='bg-red-600 text-white px-4 rounded-r-md hover:bg-red-700'>Subscribe</button>
-            </form>
+            </form> */}
         </div>
       </div>
       {/* bottom section */}

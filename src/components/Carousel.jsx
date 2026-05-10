@@ -18,7 +18,7 @@ const skeletonStyle = `
   .skel {
     background: linear-gradient(90deg, #1a1a2e 25%, #2a2a4a 50%, #1a1a2e 75%);
     background-size: 700px 100%;
-    animation: shimmer 3s infinite linear;
+    animation: shimmer 0.45s infinite linear;
     border-radius: 8px;
   }
 `;
@@ -146,9 +146,9 @@ const Carousel = () => {
   const settings = {
     dots: false,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 2600,
     infinite: true,
-    speed: 500,
+    speed: 800,
     slidesToShow: 1,
     slidesToScroll: 1,
     pauseOnHover: false,

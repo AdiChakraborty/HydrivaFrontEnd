@@ -56,7 +56,7 @@ const Contact = () => {
             </div>
             <div>
               <p>
-                <strong>📍 Address:</strong> 123 Jadavpur,Kolkata 700036
+                <strong>📍 Address:</strong> 45/1 Titas Apartment Santoshpur Jadavpur,Kolkata 700075
               </p>
               <p>
                 <strong>📧 Email:</strong> hydrivaofficial@gmail.com
@@ -64,7 +64,7 @@ const Contact = () => {
               <p>
                 <strong>📞 Phone:</strong> +91 6289168373
               </p>
-            </div>
+            </div>  
           </div>
 
           {/* Form Section */}
